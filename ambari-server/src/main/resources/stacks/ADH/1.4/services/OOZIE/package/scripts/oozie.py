@@ -188,7 +188,7 @@ def oozie_server_specific():
     not_if=no_op_test
   )
   
-  oozie_server_directories = [format("{oozie_home}/{oozie_tmp_dir}"), params.oozie_pid_dir, params.oozie_log_dir, params.oozie_tmp_dir, params.oozie_data_dir, params.oozie_lib_dir, params.oozie_webapps_dir, params.oozie_webapps_conf_dir, params.oozie_server_dir]
+  oozie_server_directories = [format("{oozie_home}/{oozie_tmp_dir}"), params.oozie_pid_dir, params.oozie_log_dir, params.oozie_tmp_dir, params.oozie_data_dir, params.oozie_lib_dir, params.oozie_webapps_dir, params.oozie_server_dir]
   Directory( oozie_server_directories,
     owner = params.oozie_user,
     group = params.user_group,
@@ -196,10 +196,12 @@ def oozie_server_specific():
     recursive = True,
     cd_access="a",
   )
-  
   Directory(params.oozie_libext_dir,
             recursive=True,
   )
+
+  ln_conf = ('ln', '-sfn', params.oozie_webapss_conf_target_dir, params.oozie_webapps_conf_dir) 
+  Execute (ln_conf)
   
   hashcode_file = format("{oozie_home}/.hashcode")
   hashcode = hashlib.md5(format('{oozie_home}/oozie-sharelib.tar.gz')).hexdigest()
