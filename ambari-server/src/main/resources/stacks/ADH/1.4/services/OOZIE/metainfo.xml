@@ -117,6 +117,9 @@
             <package>
               <name>oozie-client</name>
             </package>
+            <package>
+              <name>zip</name>
+            </package>
           </packages>
         </osSpecific>
         
