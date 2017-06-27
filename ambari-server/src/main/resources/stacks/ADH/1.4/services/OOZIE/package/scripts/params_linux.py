@@ -57,11 +57,7 @@ hadoop_lib_home = hdp_select.get_hadoop_dir("lib")
 oozie_lib_dir = "/var/lib/oozie"
 oozie_setup_sh = "/usr/lib/oozie/bin/oozie-setup.sh"
 oozie_webapps_dir = "/var/lib/oozie/oozie-server/webapps/"
-if security_enable:
-  oozie_webapps_conf_dir = "/etc/oozie/tomcat-conf.https/conf"
-else:
-  oozie_webapps_conf_dir = "/etc/oozie/tomcat-conf.http/conf"
-
+oozie_webapps_conf_dir = "/var/lib/oozie/oozie-server/conf"
 oozie_libext_dir = "/usr/lib/oozie/libext"
 oozie_server_dir = "/var/lib/oozie/oozie-server"
 oozie_shared_lib = "/usr/lib/oozie"
@@ -102,6 +98,14 @@ http_principal = config['configurations']['oozie-site']['oozie.authentication.ke
 oozie_site = config['configurations']['oozie-site']
 # Need this for yarn.nodemanager.recovery.dir in yarn-site
 yarn_log_dir_prefix = config['configurations']['yarn-env']['yarn_log_dir_prefix']
+
+if security_enabled and Script.is_hdp_stack_less_than("2.2"):
+  #older versions of oozie have problems when using _HOST in principal
+  oozie_site = dict(config['configurations']['oozie-site'])
+  oozie_site['oozie.service.HadoopAccessorService.kerberos.principal'] = \
+    oozie_principal.replace('_HOST', hostname)
+  oozie_site['oozie.authentication.kerberos.principal'] = \
+    http_principal.replace('_HOST', hostname)
 
 smokeuser_keytab = config['configurations']['cluster-env']['smokeuser_keytab']
 oozie_keytab = default("/configurations/oozie-env/oozie_keytab", oozie_service_keytab)
