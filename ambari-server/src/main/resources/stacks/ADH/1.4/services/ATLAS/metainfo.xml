@@ -37,6 +37,12 @@
             <scriptType>PYTHON</scriptType>
             <timeout>1200</timeout>
           </commandScript>
+          <requiredServices>
+            <service>HBASE</service>
+            <service>SOLR</service>
+            <service>KAFKA</service>
+            <service>ZOOKEEPER</service>
+          </requiredServices>
           <logs>
             <log>
               <logId>atlas_app</logId>
