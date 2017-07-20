@@ -104,6 +104,8 @@ else
   export TEZ_CONF_DIR=
 fi
 
+export SPARK_MASTER_WEBUI_PORT=8082
+
 </value>
   </property>
 
