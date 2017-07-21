@@ -58,7 +58,7 @@ def spark_service(name, upgrade_type=None, action=None):
       thriftserver_no_op_test = format(
       'ls {spark_thrift_server_pid_file} >/dev/null 2>&1 && ps -p `cat {spark_thrift_server_pid_file}` >/dev/null 2>&1')
       Execute(format('{spark_thrift_server_start} --properties-file {spark_thrift_server_conf_file} {spark_thrift_cmd_opts_properties}'),
-              user=params.hive_user,
+              user=params.spark_user,
               environment={'JAVA_HOME': params.java_home},
               not_if=thriftserver_no_op_test
       )
@@ -74,7 +74,7 @@ def spark_service(name, upgrade_type=None, action=None):
 
     elif name == 'sparkthriftserver':
       Execute(format('{spark_thrift_server_stop}'),
-              user=params.hive_user,
+              user=params.spark_user,
               environment={'JAVA_HOME': params.java_home}
       )
       File(params.spark_thrift_server_pid_file,

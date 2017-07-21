@@ -67,7 +67,7 @@ else:
 
 oozie_libext_dir = "/usr/lib/oozie/libext"
 oozie_server_dir = "/var/lib/oozie/oozie-server"
-oozie_shared_lib = "/usr/lib/oozie"
+oozie_shared_lib = "/usr/lib/oozie/share"
 oozie_home = "/usr/lib/oozie"
 oozie_bin_dir = "/usr/bin"
 falcon_home = '/usr/lib/falcon'
@@ -146,13 +146,10 @@ if https_port is not None:
 
 
 hdfs_site = config['configurations']['hdfs-site']
-fs_root = config['configurations']['core-site']['fs.defaultFS']
+fs_root = "/user/oozie/share/lib"
 
-if Script.is_hdp_stack_less_than("2.2"):
-  put_shared_lib_to_hdfs_cmd = format("hadoop --config {hadoop_conf_dir} dfs -put {oozie_shared_lib} {oozie_hdfs_user_dir}")
-# for newer
-else:
-  put_shared_lib_to_hdfs_cmd = format("{oozie_setup_sh} sharelib create -fs {fs_root} -locallib {oozie_shared_lib}")
+put_shared_lib_to_hdfs_cmd = format("/usr/bin/oozie-setup sharelib create -fs {fs_root} -locallib {oozie_shared_lib}")
+update_sharelib_cmd = format("oozie admin  -sharelibupdate")
 
 jdbc_driver_name = default("/configurations/oozie-site/oozie.service.JPAService.jdbc.driver", "")
 # NOT SURE THAT IT'S A GOOD IDEA TO USE PATH TO CLASS IN DRIVER, MAYBE IT WILL BE BETTER TO USE DB TYPE.

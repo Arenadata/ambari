@@ -19,26 +19,26 @@
   <latest></latest>
   <os family="redhat6">
     <repo>
-      <baseurl>http://FQDN/ADH-1.4.0.1</baseurl>
-      <repoid>ADH-1.4.0.1</repoid>
-      <reponame>ADH-1.4.0.1</reponame>
+      <baseurl>http://storage.googleapis.com/arenadata-repo/ADH/1.4.0/centos6/adh</baseurl>
+      <repoid>ADH-1.4.0</repoid>
+      <reponame>ADH-1.4.0</reponame>
     </repo>
     <repo>
-      <baseurl>http://FQDN/ADH-UTILS-1.4.0.1</baseurl>
-      <repoid>ADH-UTILS-1.4.0.1</repoid>
-      <reponame>ADH-UTILS-1.4.0.1</reponame>
+      <baseurl>http://storage.googleapis.com/arenadata-repo/ADH/1.4.0/centos6/adh-utils</baseurl>
+      <repoid>ADH-UTILS-1.4.0</repoid>
+      <reponame>ADH-UTILS-1.4.0</reponame>
     </repo>
   </os>
   <os family="redhat7">
     <repo>
-      <baseurl>http://FQDN/ADH-1.4.0.1</baseurl>
-      <repoid>ADH-1.4.0.1</repoid>
-      <reponame>ADH-1.4.0.1</reponame>
+      <baseurl>http://storage.googleapis.com/arenadata-repo/ADH/1.4.0/centos7/adh</baseurl>
+      <repoid>ADH-1.4.0</repoid>
+      <reponame>ADH-1.4.0</reponame>
     </repo>
     <repo>
-      <baseurl>http://FQDN/ADH-UTILS-1.4.0.1</baseurl>
-      <repoid>ADH-UTILS-1.4.0.1</repoid>
-      <reponame>ADH-UTILS-1.4.0.1</reponame>
+      <baseurl>http://storage.googleapis.com/arenadata-repo/ADH/1.4.0/centos7/adh-utils</baseurl>
+      <repoid>ADH-UTILS-1.4.0</repoid>
+      <reponame>ADH-UTILS-1.4.0</reponame>
     </repo>
   </os>
 </reposinfo>

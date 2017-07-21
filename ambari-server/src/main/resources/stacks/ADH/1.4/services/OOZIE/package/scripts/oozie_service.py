@@ -96,37 +96,42 @@ def oozie_service(action = 'start', upgrade_type=None):
                 user = params.oozie_user,
         )
       
-      
-      if params.host_sys_prepped:
-        print "Skipping creation of oozie sharelib as host is sys prepped"
-        hdfs_share_dir_exists = True # skip time-expensive hadoop fs -ls check
-      elif WebHDFSUtil.is_webhdfs_available(params.is_webhdfs_enabled, params.default_fs):
-        # check with webhdfs is much faster than executing hadoop fs -ls. 
-        util = WebHDFSUtil(params.hdfs_site, params.oozie_user, params.security_enabled)
-        list_status = util.run_command(params.hdfs_share_dir, 'GETFILESTATUS', method='GET', ignore_status_codes=['404'], assertable_result=False)
-        hdfs_share_dir_exists = ('FileStatus' in list_status)
-      else:
-        # have to do time expensive hadoop fs -ls check.
-        hdfs_share_dir_exists = shell.call(format("{kinit_if_needed} hadoop --config {hadoop_conf_dir} dfs -ls {hdfs_share_dir} | awk 'BEGIN {{count=0;}} /share/ {{count++}} END {{if (count > 0) {{exit 0}} else {{exit 1}}}}'"),
-                                 user=params.oozie_user)[0]
-                                 
-      if not hdfs_share_dir_exists:                      
-        Execute( params.put_shared_lib_to_hdfs_cmd, 
-                 user = params.oozie_user,
-                 path = params.execute_path 
-        )
-        params.HdfsResource(format("{oozie_hdfs_user_dir}/share"),
-                             type="directory",
-                             action="create_on_execute",
-                             mode=0755,
-                             recursive_chmod=True,
-        )
-        params.HdfsResource(None, action="execute")
-        
+    if params.host_sys_prepped:
+      print "Skipping creation of oozie sharelib as host is sys prepped"
+      hdfs_share_dir_exists = True # skip time-expensive hadoop fs -ls check
+    elif WebHDFSUtil.is_webhdfs_available(params.is_webhdfs_enabled, params.default_fs):
+      # check with webhdfs is much faster than executing hadoop fs -ls. 
+      util = WebHDFSUtil(params.hdfs_site, params.oozie_user, params.security_enabled)
+      list_status = util.run_command(params.hdfs_share_dir, 'GETFILESTATUS', method='GET', ignore_status_codes=['404'], assertable_result=False)
+      hdfs_share_dir_exists = ('FileStatus' in list_status)
+    else:
+      # have to do time expensive hadoop fs -ls check.
+      hdfs_share_dir_exists = shell.call(format("{kinit_if_needed} hadoop --config {hadoop_conf_dir} dfs -ls {hdfs_share_dir} | awk 'BEGIN {{count=0;}} /share/ {{count++}} END {{if (count > 0) {{exit 0}} else {{exit 1}}}}'"),
+                               user=params.oozie_user)[0]
+
+    if not hdfs_share_dir_exists:                      
+      Execute( params.put_shared_lib_to_hdfs_cmd, 
+               user = 'root',
+               path = params.execute_path 
+      )
+      params.HdfsResource(format("{oozie_hdfs_user_dir}/share"),
+                           type="directory",
+                           action="create_on_execute",
+                           mode=0755,
+                           recursive_chmod=True,
+      )
+      params.HdfsResource(None, action="execute")
 
     # start oozie
     Execute( start_cmd, environment=environment, user = params.oozie_user,
       not_if = no_op_test )
+
+    Execute( params.update_sharelib_cmd, 
+             user = params.oozie_user,
+             path = params.execute_path,
+             ignore_failures=True
+    )
+
 
   elif action == 'stop':
     stop_cmd  = format("cd {oozie_tmp_dir} && {oozie_home}/bin/oozied.sh stop")

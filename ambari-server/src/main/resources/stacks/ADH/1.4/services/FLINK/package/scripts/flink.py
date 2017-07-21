@@ -10,6 +10,10 @@ class Master(Script):
   def get_component_name(self):
     return "flink"
 
+  def get_env(self):
+    import params
+    return {'JAVA_HOME': params.java_home, 'FLINK_PID_DIR': params.flink_pid_dir}
+
   def install(self, env):
     import params
     import status_params
@@ -29,8 +33,6 @@ class Master(Script):
             group=params.flink_group,
             content=''
     )
-    
-    self.configure(env, True)
          
   def configure(self, env, isInstall=False):
     import params
@@ -46,23 +48,31 @@ class Master(Script):
     File(format("{conf_dir}/flink-conf.yaml"), content=properties_content, owner=params.flink_user)
             
   def config_ssh(self, flink_user):
-    cmd1 = format("ssh-keygen -f {flink_home_dir}/.ssh/id_rsa -t rsa -N \"\"")
-    Execute(cmd1, user=flink_user)
-    cmd2 = format("cat {flink_home_dir}/.ssh/id_rsa.pub >> {flink_home_dir}/.ssh/authorized_keys")
-    Execute(cmd2, user=flink_user)
-    cmd3 = format("echo -e \"Host localhost\n  StrictHostKeyChecking no\" > {flink_home_dir}/.ssh/config")
-    Execute(cmd3, user=flink_user)
+    if not os.path.exists(format("{flink_home_dir}/.ssh/id_rsa")):
+      cmd1 = format("ssh-keygen -f {flink_home_dir}/.ssh/id_rsa -t rsa -N \"\"")
+      Execute(cmd1, user=flink_user)
+      cmd2 = format("cat {flink_home_dir}/.ssh/id_rsa.pub >> {flink_home_dir}/.ssh/authorized_keys")
+      Execute(cmd2, user=flink_user)
+      cmd3 = format("echo -e \"Host localhost\n  StrictHostKeyChecking no\" > {flink_home_dir}/.ssh/config")
+      Execute(cmd3, user=flink_user)
 
   def stop(self, env):
     import params
     cmd = format("{params.bin_dir}/stop-cluster.sh >> {params.flink_log_file}")
-    Execute (cmd, user=params.flink_user)
+    Execute (cmd, user=params.flink_user, environment=self.get_env())
       
   def start(self, env):
     import params
+    import status_params
+
+    env.set_params(params)
+    env.set_params(status_params)
+    
+    self.configure(env, True)
     
     cmd = format("{params.bin_dir}/start-cluster.sh >> {params.flink_log_file}")
-    Execute (cmd, user=params.flink_user)
+    #cmd = "env >/tmp/1.log"
+    Execute (cmd, user=params.flink_user, environment=self.get_env())
 
     if os.path.exists(params.temp_file):
       os.remove(params.temp_file)
