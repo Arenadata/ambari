@@ -32,6 +32,10 @@ import subprocess
 
 from resource_management.core.utils import attr_to_bitmask
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 if os.geteuid() == 0:
   def chown(path, owner, group):
     uid = owner.pw_uid if owner else -1

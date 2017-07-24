@@ -8,9 +8,14 @@ def setup_hue():
   import params
   import status_params
   Logger.info("Configure Hue Service")
-  # create the pid and log dir
-  Execute("mkdir -p --mode=0755 " + params.hue_log_dir + " " + params.hue_pid_dir)
-  Execute("chown " + params.hue_user + ":" + params.hue_group + " " + params.hue_log_dir + " " + params.hue_pid_dir)
+#  create the pid and log dir
+#  Directory([params.hue_log_dir, params.hue_pid_dir],
+#        mode=0755,
+#        cd_access='a',
+#        owner=params.hue_user,
+#        group=params.hue_group,
+#        create_parents=True
+#  )
   if not os.path.islink('/usr/lib/hue/logs/hue'):
     Execute("ln -s /var/log/hue/ /usr/lib/hue/logs")
   File([params.hue_log_file, params.hue_server_pid_file],
@@ -20,7 +25,7 @@ def setup_hue():
     content=''
   )
     
-  Logger.info("Creating symlinks /usr/hdp/current/hadoop-client/lib/hue-plugins-3.11.0-SNAPSHOT.jar")
+  Logger.info("Creating symlinks .jar")
   Link("{0}/desktop/libs/hadoop/java-lib/*".format(params.hue_dir),to = "/usr/lib")
   Execute('find {0} -iname "*.sh" | xargs chmod +x'.format(params.service_packagedir))
   # Create a home directory for solr user on HDFS

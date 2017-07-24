@@ -12,21 +12,16 @@ class HueServer(Script):
   def install(self, env):
     # Import properties defined in -config.xml file from params class
     import params
-    Logger.info("Hi from install")
     env.set_params(params)
     self.install_packages(env)
-    # CHANGE Logger.info(format("Downloading Hue Service"))
-    # CHANGE download_hue()
 
   def configure(self, env):
     import params
-    Logger.info("Hi from configure")
     env.set_params(params)
     setup_hue()
     
   def start(self, env):
     import params
-    Logger.info("Hi from start")
     self.stop(env)
     self.configure(env)
     Execute(format("{hue_bin_dir}/supervisor >> {hue_log_file} 2>&1 &"),
@@ -41,7 +36,6 @@ class HueServer(Script):
 
   def stop(self, env):
     import params
-    Logger.info("Hi from stop")
     env.set_params(params)
     # Kill the process of Hue
     Execute ('ps -ef | grep hue | grep -v grep | awk  \'{print $2}\' | xargs kill -9', user=params.hue_user, ignore_failures=True)

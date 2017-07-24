@@ -3,21 +3,19 @@ import os,re
 import resource_management.libraries.functions
 from resource_management import *
 from ambari_commons.os_check import OSCheck
-from ambari_commons.str_utils import cbool # , cint
-# CHANGE from resource_management.libraries.functions import StackFeature 
+from ambari_commons.str_utils import cbool, cint
+from resource_management.libraries.functions import StackFeature
 from resource_management.libraries.functions import conf_select
 from resource_management.libraries.functions import get_kinit_path
-# CHANGE from resource_management.libraries.functions import stack_select
-from resource_management.libraries.functions import hdp_select # NEW 
+from resource_management.libraries.functions import stack_select
 from resource_management.libraries.functions.default import default
 from resource_management.libraries.functions.format import format
-# CHANGE from resource_management.libraries.functions.get_stack_version import get_stack_version
-from resource_management.libraries.functions.get_hdp_version import get_hdp_version # NEW
-# CHANGE from resource_management.libraries.functions.stack_features import check_stack_feature
-# CHANGE from resource_management.libraries.functions.version import format_stack_version
+from resource_management.libraries.functions.get_stack_version import get_stack_version
+from resource_management.libraries.functions.stack_features import check_stack_feature
+from resource_management.libraries.functions.version import format_stack_version
 from resource_management.libraries.resources.hdfs_resource import HdfsResource
-# CHANGE from resource_management.libraries.functions.get_not_managed_resources import get_not_managed_resources
-# CHANGE from resource_management.libraries.script.script import Script
+from resource_management.libraries.functions.get_not_managed_resources import get_not_managed_resources
+from resource_management.libraries.script.script import Script
 import status_params
 import functools
 # a map of the Ambari role to the component name
@@ -29,9 +27,7 @@ SERVER_ROLE_DIRECTORY_MAP = {
 component_directory = Script.get_component_from_role(SERVER_ROLE_DIRECTORY_MAP, "HUE_SERVER")
 config = Script.get_config()
 tmp_dir = Script.get_tmp_dir()
-# CHANGE stack_root = Script.get_stack_root()
-# Hue download url
-# CHANGE download_url = 'cat /etc/yum.repos.d/HDP.repo | grep "baseurl" | awk -F \'=\' \'{print $2"hue/hue-3.11.0.tgz"}\''
+stack_root = Script.get_stack_root()
 # New Cluster Stack Version that is defined during the RESTART of a Rolling Upgrade
 version = default("/commandParams/version", None)
 stack_name = default("/hostLevelParams/stack_name", None)
@@ -97,7 +93,7 @@ hue_user = config['configurations']['hue-env']['hue_user']
 hue_group = config['configurations']['hue-env']['hue_group']
 hue_local_home_dir = os.path.expanduser("~{0}".format(hue_user))
 hue_hdfs_home_dir = format('/user/{hue_user}')
-hue_install_dir = '/usr/lib/' # CHANGE
+hue_install_dir = '/usr/lib'
 hue_dir = format('{hue_install_dir}/hue')
 hue_conf_dir = format('{hue_dir}/desktop/conf')
 hue_bin_dir = format('{hue_dir}/build/env/bin')
@@ -113,10 +109,10 @@ metastore_db_options = config['configurations']['hue-desktop-site']['db_options'
 # configurations of usersync
 usersync_enabled = config['configurations']['hue-ugsync-site']['usersync.enabled']
 usersync_source = (config['configurations']['hue-ugsync-site']['SYNC_SOURCE']).lower()
-usersync_unix_minUserId = config['configurations']['hue-ugsync-site']['usersync.unix.minUserId'] # CHANGE .strip()
-usersync_unix_maxUserId = config['configurations']['hue-ugsync-site']['usersync.unix.maxUserId'] # CHANGE .strip()
-usersync_unix_minGroupId = config['configurations']['hue-ugsync-site']['usersync.unix.minGroupId'] # CHANGE .strip()
-usersync_unix_maxGroupId = config['configurations']['hue-ugsync-site']['usersync.unix.maxGroupId'] # CHANGE .strip()
+usersync_unix_minUserId = config['configurations']['hue-ugsync-site']['usersync.unix.minUserId'].strip()
+usersync_unix_maxUserId = config['configurations']['hue-ugsync-site']['usersync.unix.maxUserId'].strip()
+usersync_unix_minGroupId = config['configurations']['hue-ugsync-site']['usersync.unix.minGroupId'].strip()
+usersync_unix_maxGroupId = config['configurations']['hue-ugsync-site']['usersync.unix.maxGroupId'].strip()
 usersync_unix_group_file = config['configurations']['hue-ugsync-site']['usersync.unix.group.file']
 usersync_unix_password_file = config['configurations']['hue-ugsync-site']['usersync.unix.password.file']
 usersync_sleeptimeinmillisbetweensynccycle = config['configurations']['hue-ugsync-site']['usersync.sleeptimeinmillisbetweensynccycle']
@@ -206,8 +202,7 @@ jobsub_local_data_dir = config['configurations']['hue-hadoop-site']['jobsub_samp
 jobsub_sample_data_dir = config['configurations']['hue-hadoop-site']['jobsub_sample_data_dir']
 
 hdfs_user = config['configurations']['hadoop-env']['hdfs_user']
-# CHANGE hadoop_bin_dir = stack_select.get_hadoop_dir('bin')
-hadoop_bin_dir = hdp_select.get_hadoop_dir('bin') # NEW
+hadoop_bin_dir = stack_select.get_hadoop_dir('bin')
 hadoop_conf_dir = conf_select.get_hadoop_conf_dir()
 hdfs_site = config['configurations']['hdfs-site']
 default_fs = config['configurations']['core-site']['fs.defaultFS']
@@ -220,7 +215,7 @@ kinit_path_local = get_kinit_path(default('/configurations/kerberos-env/executab
 HdfsResource = functools.partial(
     HdfsResource,
     user=hdfs_user,
-    # CHANGE hdfs_resource_ignore_file='/var/lib/ambari-agent/data/.hdfs_resource_ignore',
+    hdfs_resource_ignore_file='/var/lib/ambari-agent/data/.hdfs_resource_ignore',
     security_enabled=security_enabled,
     keytab=hdfs_user_keytab,
     kinit_path_local=kinit_path_local,
@@ -229,8 +224,8 @@ HdfsResource = functools.partial(
     principal_name=hdfs_principal_name,
     hdfs_site=hdfs_site,
     default_fs=default_fs,
-    # CHANGE immutable_paths=get_not_managed_resources(),
-    # CHANGE dfs_type=dfs_type
+    immutable_paths=get_not_managed_resources(),
+    dfs_type=dfs_type
 )
 
 # configurations of Yarn
