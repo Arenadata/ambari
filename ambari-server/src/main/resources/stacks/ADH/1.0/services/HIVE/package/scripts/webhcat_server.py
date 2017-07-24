@@ -20,7 +20,6 @@ Ambari Agent
 """
 from resource_management import *
 from resource_management.libraries.functions import conf_select
-from resource_management.libraries.functions import hdp_select
 from resource_management.libraries.functions.security_commons import build_expectations, \
   cached_kinit_executor, get_params_from_filesystem, validate_security_config_properties, \
   FILE_TYPE_XML
@@ -33,7 +32,7 @@ from ambari_commons.os_family_impl import OsFamilyImpl
 class WebHCatServer(Script):
   def install(self, env):
     import params
-    self.install_packages(env, exclude_packages=params.hive_exclude_packages)
+    self.install_packages(env)
 
   def start(self, env, upgrade_type=None):
     import params
@@ -74,12 +73,6 @@ class WebHCatServerDefault(WebHCatServer):
     Logger.info("Executing WebHCat Stack Upgrade pre-restart")
     import params
     env.set_params(params)
-
-    if params.version and compare_versions(format_hdp_stack_version(params.version), '2.2.0.0') >= 0:
-      # webhcat has no conf, but uses hadoop home, so verify that regular hadoop conf is set
-      conf_select.select(params.stack_name, "hive-hcatalog", params.version)
-      conf_select.select(params.stack_name, "hadoop", params.version)
-      hdp_select.select("hive-webhcat", params.version)
 
   def security_status(self, env):
     import status_params

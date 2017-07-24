@@ -69,9 +69,6 @@ def hcat_service_check():
                     user=params.hdfs_user,
                     logoutput=True,
                     conf_dir=params.hadoop_conf_dir,
-                    security_enabled=params.security_enabled,
-                    kinit_path_local=params.kinit_path_local,
-                    keytab=params.hdfs_user_keytab,
                     principal=params.hdfs_principal_name,
                     bin_dir=params.execute_path)
     else:
@@ -79,9 +76,6 @@ def hcat_service_check():
                     user=params.hdfs_user,
                     logoutput=True,
                     conf_dir=params.hadoop_conf_dir,
-                    security_enabled=params.security_enabled,
-                    kinit_path_local=params.kinit_path_local,
-                    keytab=params.hdfs_user_keytab,
                     bin_dir=params.execute_path
       )
 

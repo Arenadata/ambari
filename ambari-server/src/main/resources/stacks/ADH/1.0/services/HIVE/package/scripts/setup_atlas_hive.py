@@ -30,12 +30,12 @@ def setup_atlas_hive(configuration_directory=None):
     if configuration_directory is None:
       configuration_directory = format("{hive_config_dir}")
 
-    if not params.host_sys_prepped:
-      Package(params.atlas_ubuntu_plugin_package if OSCheck.is_ubuntu_family() else params.atlas_plugin_package, # FIXME HACK: install the package during RESTART/START when install_packages is not triggered.
-      )
+#    if not params.host_sys_prepped:
+#      Package(params.atlas_ubuntu_plugin_package if OSCheck.is_ubuntu_family() else params.atlas_plugin_package, # FIXME HACK: install the package during RESTART/START when install_packages is not triggered.
+#      )
 
-    PropertiesFile(format('{configuration_directory}/client.properties'),
-                   properties = params.atlas_client_props,
-                   owner = params.hive_user,
-                   group = params.user_group,
-                   mode = 0644)
+#    PropertiesFile(format('{configuration_directory}/client.properties'),
+#                   properties = params.atlas_client_props,
+#                   owner = params.hive_user,
+#                   group = params.user_group,
+#                   mode = 0644)

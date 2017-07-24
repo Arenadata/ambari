@@ -23,10 +23,8 @@ from resource_management.core.logger import Logger
 from resource_management.core.resources.system import Execute, Directory
 from resource_management.libraries.script import Script
 from resource_management.libraries.functions import conf_select
-from resource_management.libraries.functions import hdp_select
 from resource_management.libraries.functions.constants import Direction
 from resource_management.libraries.functions.format import format
-from resource_management.libraries.functions.version import format_hdp_stack_version
 from resource_management.libraries.functions.version import compare_versions
 from resource_management.libraries.functions.security_commons import build_expectations
 from resource_management.libraries.functions.security_commons import cached_kinit_executor
@@ -47,7 +45,7 @@ LEGACY_HIVE_SERVER_CONF = "/etc/hive/conf.server"
 class HiveMetastore(Script):
   def install(self, env):
     import params
-    self.install_packages(env, exclude_packages = params.hive_exclude_packages)
+    self.install_packages(env)
 
 
   def start(self, env, upgrade_type=None):
@@ -101,17 +99,7 @@ class HiveMetastoreDefault(HiveMetastore):
     import params
 
     env.set_params(params)
-
-    is_stack_hdp_23 = Script.is_hdp_stack_greater_or_equal("2.3")
-    is_upgrade = params.upgrade_direction == Direction.UPGRADE
-
-    if is_stack_hdp_23 and is_upgrade:
-      self.upgrade_schema(env)
-
-    if params.version and compare_versions(format_hdp_stack_version(params.version), '2.2.0.0') >= 0:
-      conf_select.select(params.stack_name, "hive", params.version)
-      hdp_select.select("hive-metastore", params.version)
-
+#    self.upgrade_schema(env)
 
   def security_status(self, env):
     import status_params
@@ -207,7 +195,7 @@ class HiveMetastoreDefault(HiveMetastore):
 
         Execute(format("yes | {sudo} cp {jars_in_hive_lib} {target_directory}"))
 
-        Directory(target_native_libs_directory, recursive=True)
+        Directory(target_native_libs_directory, create_parents=True)
 
         Execute(format("yes | {sudo} cp {libs_in_hive_lib} {target_native_libs_directory}"))
 
@@ -228,10 +216,7 @@ class HiveMetastoreDefault(HiveMetastore):
     # since the configurations have not been written out yet during an upgrade
     # we need to choose the original legacy location
     schematool_hive_server_conf_dir = params.hive_server_conf_dir
-    if params.current_version is not None:
-      current_version = format_hdp_stack_version(params.current_version)
-      if compare_versions(current_version, "2.3") < 0:
-        schematool_hive_server_conf_dir = LEGACY_HIVE_SERVER_CONF
+#    schematool_hive_server_conf_dir = LEGACY_HIVE_SERVER_CONF
 
     env_dict = {
       'HIVE_CONF_DIR': schematool_hive_server_conf_dir

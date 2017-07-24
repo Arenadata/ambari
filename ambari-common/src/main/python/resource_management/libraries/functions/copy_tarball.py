@@ -64,6 +64,9 @@ TARBALL_MAP = {
              "/{0}/apps/{1}/spark2/spark2-{0}-yarn-archive.tar.gz".format(STACK_NAME_PATTERN, STACK_VERSION_PATTERN))
 }
 
+TARBALL_ADH_MAP = {
+    "tez": ("/usr/lib/tez/share/tez.tar.gz", "/apps/tez/tez.tar.gz")
+}
 
 def get_sysprep_skip_copy_tarballs_hdfs():
   import params
@@ -74,6 +77,14 @@ def get_sysprep_skip_copy_tarballs_hdfs():
   if host_sys_prepped:
     sysprep_skip_copy_tarballs_hdfs = default("/configurations/cluster-env/sysprep_skip_copy_tarballs_hdfs", False)
   return sysprep_skip_copy_tarballs_hdfs
+
+def adh_tarball_paths(name):
+  if name.lower() in TARBALL_ADH_MAP:
+    (source_file, dest_file) = TARBALL_ADH_MAP[name.lower()]
+    return (True, source_file, dest_file)
+  else:
+    Logger.error("Cannot copy {0} tarball to HDFS because missing key in TARBALL_ADH_MAP.".format(str(name)))    
+    return (False, None, None)
 
 def get_tarball_paths(name, use_upgrading_version_during_upgrade=True, custom_source_file=None, custom_dest_file=None):
   """
@@ -89,6 +100,9 @@ def get_tarball_paths(name, use_upgrading_version_during_upgrade=True, custom_so
   if not stack_name:
     Logger.error("Cannot copy {0} tarball to HDFS because stack name could not be determined.".format(str(name)))
     return (False, None, None)
+
+  if stack_name == "ADH":
+    return adh_tarball_paths(name)
 
   stack_version = get_current_version(use_upgrading_version_during_upgrade)
   if not stack_version:

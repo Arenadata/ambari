@@ -19,7 +19,6 @@ limitations under the License.
 from ambari_commons import OSCheck
 from resource_management.libraries.functions.default import default
 from resource_management.libraries.functions import format
-from resource_management.libraries.functions.version import format_hdp_stack_version
 from resource_management.libraries.functions.default import default
 from resource_management.libraries.script.script import Script
 
@@ -42,18 +41,11 @@ proxyuser_group =  config['configurations']['hadoop-env']['proxyuser_group']
 security_enabled = False
 
 stack_version_unformatted = str(config['hostLevelParams']['stack_version'])
-hdp_stack_version = format_hdp_stack_version(stack_version_unformatted)
 
 # hadoop default parameters
 flume_bin = '/usr/bin/flume-ng'
 flume_hive_home = '/usr/lib/hive'
 flume_hcat_home = '/usr/lib/hive-hcatalog'
-
-# hadoop parameters for 2.2+
-if Script.is_hdp_stack_greater_or_equal("2.2"):
-  flume_bin = '/usr/hdp/current/flume-server/bin/flume-ng'
-  flume_hive_home = '/usr/hdp/current/hive-metastore'
-  flume_hcat_home = '/usr/hdp/current/hive-webhcat'
 
 java_home = config['hostLevelParams']['java_home']
 flume_log_dir = config['configurations']['flume-env']['flume_log_dir']

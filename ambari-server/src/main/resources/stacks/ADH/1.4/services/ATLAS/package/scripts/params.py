@@ -54,7 +54,7 @@ def configs_for_ha(atlas_hosts, metadata_port, is_atlas_ha_enabled):
   for curr_hostname in atlas_hosts:
     id = _server_id_list[i]
     prop_name = "atlas.server.address." + id
-    prop_value = curr_hostname + ":" + metadata_port
+    prop_value = curr_hostname + ":" + str(metadata_port)
     additional_props[prop_name] = prop_value
     i += 1
 

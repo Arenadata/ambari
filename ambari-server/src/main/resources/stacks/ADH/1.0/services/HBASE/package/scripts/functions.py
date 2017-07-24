@@ -33,7 +33,7 @@ def calc_xmn_from_xms(heapsize_str, xmn_percent, xmn_max):
   """
   heapsize = int(re.search('\d+',heapsize_str).group(0))
   heapsize_unit = re.search('\D+',heapsize_str).group(0)
-  xmn_val = int(math.floor(heapsize*xmn_percent))
+  xmn_val = int(math.floor(heapsize * float(xmn_percent)))
   xmn_val -= xmn_val % 8
   
   result_xmn_val = xmn_max if xmn_val > xmn_max else xmn_val

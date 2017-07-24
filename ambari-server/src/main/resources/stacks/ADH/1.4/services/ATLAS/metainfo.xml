@@ -21,8 +21,8 @@
     <service>
       <name>ATLAS</name>
       <displayName>Atlas</displayName>
-      <comment>Atlas Metadata and Governance platform</comment>
-      <version>0.1.0.2.3</version>
+      <comment>Atlas Metadata and Governance platform. &lt;b&gt; This service requires HBase, Zookeeper, Solr, Kafka installed! &lt;/b&gt;</comment>
+      <version>0.7.1.1.4</version>
       <components>
         <component>
           <name>ATLAS_SERVER</name>
@@ -133,7 +133,7 @@
         <scriptType>PYTHON</scriptType>
         <timeout>300</timeout>
       </commandScript>
-      
+
 
       <configuration-dependencies>
         <config-type>application-properties</config-type>

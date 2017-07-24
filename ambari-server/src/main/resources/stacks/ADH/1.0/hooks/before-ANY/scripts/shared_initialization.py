@@ -54,7 +54,7 @@ def setup_users():
     Directory (params.hbase_tmp_dir,
                owner = params.hbase_user,
                mode=0775,
-               recursive = True,
+               create_parents= True,
                cd_access="a",
     )
     if not params.host_sys_prepped and params.override_uid == "true":
@@ -66,8 +66,6 @@ def setup_users():
   if not params.host_sys_prepped:
     if params.has_namenode:
       create_dfs_cluster_admins()
-    if params.has_tez:
-        create_tez_am_view_acls()
   else:
     Logger.info('Skipping setting dfs cluster admin and tez view acls as host is sys prepped')
 
@@ -83,16 +81,6 @@ def create_dfs_cluster_admins():
     groups = params.user_to_groups_dict[params.hdfs_user] + groups_list,
     ignore_failures = params.ignore_groupsusers_create
   )
-
-def create_tez_am_view_acls():
-
-  """
-  tez.am.view-acls support format <comma-delimited list of usernames><space><comma-delimited list of group names>
-  """
-  import params
-
-  if not params.tez_am_view_acls.startswith("*"):
-    create_users_and_groups(params.tez_am_view_acls)
 
 def create_users_and_groups(user_and_groups):
 
@@ -173,7 +161,7 @@ def setup_java():
       return
 
     Directory(params.artifact_dir,
-              recursive = True,
+              create_parents= True,
               )
 
     File(jdk_curl_target,

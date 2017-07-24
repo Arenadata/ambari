@@ -107,8 +107,7 @@ def hive(name=None):
 
   if name == 'hiveserver2':
     # HDP 2.1.* or lower
-    if params.hdp_stack_version_major != "" and compare_versions(params.hdp_stack_version_major, "2.2.0.0") < 0:
-      params.HdfsResource(params.webhcat_apps_dir,
+    params.HdfsResource(params.webhcat_apps_dir,
                             type="directory",
                             action="create_on_execute",
                             owner=params.webhcat_user,
@@ -131,12 +130,9 @@ def hive(name=None):
                          mode=params.webhcat_hdfs_user_mode
     )
 
-    # ****** Begin Copy Tarballs ******
-    # *********************************
     # HDP 2.2 or higher, copy mapreduce.tar.gz to HDFS
-    if params.hdp_stack_version_major != "" and compare_versions(params.hdp_stack_version_major, '2.2') >= 0:
-      copy_to_hdfs("mapreduce", params.user_group, params.hdfs_user, host_sys_prepped=params.host_sys_prepped)
-      copy_to_hdfs("tez", params.user_group, params.hdfs_user, host_sys_prepped=params.host_sys_prepped)
+#    copy_to_hdfs("mapreduce", params.user_group, params.hdfs_user, host_sys_prepped=params.host_sys_prepped)
+#    copy_to_hdfs("tez", params.user_group, params.hdfs_user, host_sys_prepped=params.host_sys_prepped)
 
     # Always copy pig.tar.gz and hive.tar.gz using the appropriate mode.
     # This can use a different source and dest location to account for both HDP 2.1 and 2.2
@@ -146,14 +142,14 @@ def hive(name=None):
                  file_mode=params.tarballs_mode,
                  custom_source_file=params.pig_tar_source,
                  custom_dest_file=params.pig_tar_dest_file,
-                 host_sys_prepped=params.host_sys_prepped)
+                 skip=params.host_sys_prepped)
     copy_to_hdfs("hive",
                  params.user_group,
                  params.hdfs_user,
                  file_mode=params.tarballs_mode,
                  custom_source_file=params.hive_tar_source,
                  custom_dest_file=params.hive_tar_dest_file,
-                 host_sys_prepped=params.host_sys_prepped)
+                 skip=params.host_sys_prepped)
 
     wildcard_tarballs = ["sqoop", "hadoop_streaming"]
     for tarball_name in wildcard_tarballs:
@@ -174,7 +170,7 @@ def hive(name=None):
                      file_mode=params.tarballs_mode,
                      custom_source_file=source_file,
                      custom_dest_file=dest_file,
-                     host_sys_prepped=params.host_sys_prepped)
+                     skip=params.host_sys_prepped)
     # ******* End Copy Tarballs *******
     # *********************************
 
@@ -240,7 +236,7 @@ def hive(name=None):
 
   # On some OS this folder could be not exists, so we will create it before pushing there files
   Directory(params.limits_conf_dir,
-            recursive=True,
+            create_parents=True,
             owner='root',
             group='root'
             )
@@ -308,7 +304,7 @@ def fill_conf_dir(component_conf_dir):
   Directory(component_conf_dir,
             owner=params.hive_user,
             group=params.user_group,
-            recursive=True
+            create_parents=True
   )
 
   XmlConfig("mapred-site.xml",
@@ -359,7 +355,7 @@ def crt_directory(name):
   import params
 
   Directory(name,
-            recursive=True,
+            create_parents=True,
             cd_access='a',
             owner=params.hive_user,
             group=params.user_group,
@@ -398,7 +394,7 @@ def jdbc_connector():
       Execute(format("yes | {sudo} cp {jars_path_in_archive} {hive_lib}"))
 
       Directory(params.jdbc_libs_dir,
-                recursive=True)
+                create_parents=True)
 
       Execute(format("yes | {sudo} cp {libs_path_in_archive} {jdbc_libs_dir}"))
 

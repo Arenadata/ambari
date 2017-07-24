@@ -31,9 +31,6 @@ def setup_ranger_hbase(upgrade_type=None):
     
     hdp_version = None
 
-    if upgrade_type is not None:
-      hdp_version = params.version
-
     if params.retryAble:
       Logger.info("HBase: Setup ranger: command retry enables thus retrying if ranger admin is down !")
     else:

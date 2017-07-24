@@ -36,22 +36,6 @@ class TezPreUpgrade(Script):
     import params
     env.set_params(params)
 
-    Logger.info("Before starting Stack Upgrade, check if tez tarball has been copied to HDFS.")
-
-    if params.hdp_stack_version and compare_versions(params.hdp_stack_version, '2.2.0.0') >= 0:
-      Logger.info("Stack version {0} is sufficient to check if need to copy tez.tar.gz to HDFS.".format(params.hdp_stack_version))
-
-      # Force it to copy the current version of the tez tarball, rather than the version the RU will go to.
-      resource_created = copy_to_hdfs(
-        "tez",
-        params.user_group,
-        params.hdfs_user,
-        use_upgrading_version_during_uprade=False,
-        host_sys_prepped=params.host_sys_prepped)
-      if resource_created:
-        params.HdfsResource(None, action="execute")
-      else:
-        raise Fail("Could not copy tez tarball to HDFS.")
 
 if __name__ == "__main__":
   TezPreUpgrade().execute()

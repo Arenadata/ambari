@@ -20,7 +20,6 @@ limitations under the License.
 import sys
 from resource_management import *
 from resource_management.libraries.functions import conf_select
-from resource_management.libraries.functions import hdp_select
 from hive import hive
 from ambari_commons.os_family_impl import OsFamilyImpl
 from ambari_commons import OSConst
@@ -28,7 +27,7 @@ from ambari_commons import OSConst
 class HiveClient(Script):
   def install(self, env):
     import params
-    self.install_packages(env, exclude_packages=params.hive_exclude_packages)
+    self.install_packages(env)
     self.configure(env)
 
   def status(self, env):
@@ -55,10 +54,6 @@ class HiveClientDefault(HiveClient):
 
     import params
     env.set_params(params)
-    if params.version and compare_versions(format_hdp_stack_version(params.version), '2.2.0.0') >= 0:
-      conf_select.select(params.stack_name, "hive", params.version)
-      conf_select.select(params.stack_name, "hadoop", params.version)
-      hdp_select.select("hadoop-client", params.version)
 
 
 if __name__ == "__main__":

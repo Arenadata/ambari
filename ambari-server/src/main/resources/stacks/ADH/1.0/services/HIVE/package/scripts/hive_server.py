@@ -22,12 +22,9 @@ limitations under the License.
 from resource_management.libraries.script.script import Script
 from resource_management.libraries.resources.hdfs_resource import HdfsResource
 from resource_management.libraries.functions import conf_select
-from resource_management.libraries.functions import hdp_select
 from resource_management.libraries.functions import format
 from resource_management.libraries.functions.copy_tarball import copy_to_hdfs
-from resource_management.libraries.functions.get_hdp_version import get_hdp_version
 from resource_management.libraries.functions.check_process_status import check_process_status
-from resource_management.libraries.functions.version import compare_versions, format_hdp_stack_version
 from resource_management.libraries.functions.security_commons import build_expectations, \
   cached_kinit_executor, get_params_from_filesystem, validate_security_config_properties, \
   FILE_TYPE_XML
@@ -47,7 +44,7 @@ from hive_service import hive_service
 class HiveServer(Script):
   def install(self, env):
     import params
-    self.install_packages(env, exclude_packages=params.hive_exclude_packages)
+    self.install_packages(env)
 
   def configure(self, env):
     import params
@@ -117,10 +114,7 @@ class HiveServerDefault(HiveServer):
     import params
     env.set_params(params)
 
-    if params.version and compare_versions(format_hdp_stack_version(params.version), '2.2.0.0') >= 0:
-      conf_select.select(params.stack_name, "hive", params.version)
-      hdp_select.select("hive-server2", params.version)
-
+    if False:
       # Copy mapreduce.tar.gz and tez.tar.gz to HDFS
       resource_created = copy_to_hdfs(
         "mapreduce",

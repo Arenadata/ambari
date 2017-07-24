@@ -27,7 +27,6 @@ from resource_management.core.exceptions import ComponentIsNotRunning
 from resource_management.core.logger import Logger
 from resource_management.core import shell
 from resource_management.libraries.functions.version import compare_versions
-from resource_management.libraries.functions.version import format_hdp_stack_version
 
 def setup_spark(env, type, upgrade_type = None, action = None):
   import params
@@ -36,7 +35,7 @@ def setup_spark(env, type, upgrade_type = None, action = None):
             owner=params.spark_user,
             group=params.user_group,
             mode=0775,
-            recursive=True
+            create_parents=True
   )
   if type == 'server' and action == 'config':
     params.HdfsResource(params.spark_hdfs_user_dir,
@@ -99,11 +98,8 @@ def setup_spark(env, type, upgrade_type = None, action = None):
       key_value_delimiter = " ",
     )
 
-  effective_version = params.version if upgrade_type is not None else params.hdp_stack_version
-  if effective_version:
-    effective_version = format_hdp_stack_version(effective_version)
-
-  if params.spark_thrift_fairscheduler_content and effective_version and compare_versions(effective_version, '2.4.0.0') >= 0:
+  effective_version = False
+  if params.spark_thrift_fairscheduler_content and effective_version:
     # create spark-thrift-fairscheduler.xml
     File(os.path.join(params.spark_conf,"spark-thrift-fairscheduler.xml"),
       owner=params.spark_user,

@@ -35,23 +35,24 @@ def webhcat_service(action='start', upgrade_type=None):
   import params
 
   environ = {
-    'HADOOP_HOME': params.hadoop_home
+    'HADOOP_HOME': "/usr/lib/hadoop"
   }
+  env = format('export HIVE_HOME=/usr/lib/hive; export HCAT_HOME=/usr/lib/hive-hcatalog')
 
   cmd = format('{webhcat_bin_dir}/webhcat_server.sh')
 
   if action == 'start':
     if upgrade_type is not None and params.version:
-      environ['HADOOP_HOME'] = format("/usr/hdp/{version}/hadoop")
+      environ['HADOOP_HOME'] = format("/usr/lib/hadoop")
 
-    daemon_cmd = format('cd {hcat_pid_dir} ; {cmd} start')
+    daemon_cmd = format('{env} ; cd {hcat_pid_dir} ; {cmd} start')
     no_op_test = as_user(format('ls {webhcat_pid_file} >/dev/null 2>&1 && ps -p `cat {webhcat_pid_file}` >/dev/null 2>&1'), user=params.webhcat_user)
     Execute(daemon_cmd,
             user=params.webhcat_user,
             not_if=no_op_test,
             environment = environ)
   elif action == 'stop':
-    daemon_cmd = format('{cmd} stop')
+    daemon_cmd = format('{env} ; {cmd} stop')
     Execute(daemon_cmd,
             user = params.webhcat_user,
             environment = environ)

@@ -29,8 +29,6 @@ upgrade_direction = default("/commandParams/upgrade_direction", Direction.UPGRAD
 stack_version_unformatted = str(config['hostLevelParams']['stack_version'])
 
 flume_conf_dir = '/etc/flume/conf'
-if Script.is_hdp_stack_greater_or_equal("2.2"):
-  flume_conf_dir = '/usr/hdp/current/flume-server/conf'
 
 flume_user = 'flume'
 flume_group = 'flume'

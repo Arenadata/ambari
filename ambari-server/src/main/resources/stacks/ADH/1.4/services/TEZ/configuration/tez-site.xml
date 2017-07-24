@@ -58,6 +58,7 @@
     <description>Java options for the Tez AppMaster process. The -Xmx parameter value is generally 0.8 times tez.am.resource.memory.mb config.</description>
   </property>
 
+
   <property>
     <name>tez.am.shuffle-vertex-manager.min-src-fraction</name>
     <value>0.2</value>
@@ -119,6 +120,12 @@
     <name>tez.am.container.reuse.enabled</name>
     <value>true</value>
     <description>Configuration to specify whether container should be reused</description>
+  </property>
+
+  <property>
+    <name>tez.task.resource.memory.mb</name>
+    <value>1024</value>
+    <description>The amount of memory to be used by launched tasks. Used only if the value is not specified explicitly by the DAG definition.</description>
   </property>
 
   <property>

@@ -18,11 +18,14 @@ hadoop_conf_dir = config['configurations']['flink-ambari-config']['hadoop_conf_d
 conf_dir = ''
 bin_dir = flink_install_dir + '/bin'
 
+java_home = config['hostLevelParams']['java_home']
+
 # params from flink-conf.yaml
 flink_yaml_content = config['configurations']['flink-env']['content']
 flink_user = config['configurations']['flink-env']['flink_user']
 flink_group = config['configurations']['flink-env']['flink_group']
 flink_log_dir = config['configurations']['flink-env']['flink_log_dir']
+flink_pid_dir = config['configurations']['flink-env']['flink_pid_dir']
 flink_log_file = flink_log_dir + '/flink-start.log'
 
 temp_file='/tmp/flink.tgz'

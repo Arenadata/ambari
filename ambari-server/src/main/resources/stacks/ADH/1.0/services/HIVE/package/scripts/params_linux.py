@@ -29,7 +29,6 @@ from resource_management.libraries.resources.hdfs_resource import HdfsResource
 from resource_management.libraries.functions.default import default
 from resource_management.libraries.functions.format import format
 from resource_management.libraries.functions.is_empty import is_empty
-from resource_management.libraries.functions.version import format_hdp_stack_version
 from resource_management.libraries.functions.copy_tarball import STACK_VERSION_PATTERN
 from resource_management.libraries.functions import get_kinit_path
 from resource_management.libraries.script.script import Script
@@ -48,11 +47,6 @@ hostname = config["hostname"]
 
 # This is expected to be of the form #.#.#.#
 stack_version_unformatted = str(config['hostLevelParams']['stack_version'])
-hdp_stack_version_major = format_hdp_stack_version(stack_version_unformatted)
-stack_is_hdp21 = Script.is_hdp_stack_less_than("2.2")
-
-# this is not available on INSTALL action because hdp-select is not available
-hdp_stack_version = functions.get_hdp_version('hive-server2')
 
 # New Cluster Stack Version that is defined during the RESTART of a Rolling Upgrade.
 # It cannot be used during the initial Cluser Install because the version is not yet known.
@@ -104,57 +98,23 @@ webhcat_bin_dir = '/usr/lib/hive-hcatalog/sbin'
 
 # Starting from HDP2.3 drop should be executed with purge suffix
 purge_tables = "false"
-if Script.is_hdp_stack_greater_or_equal("2.3"):
-  purge_tables = 'true'
 
-  # this is NOT a typo.  HDP-2.3 configs for hcatalog/webhcat point to a
-  # specific directory which is NOT called 'conf'
-  hcat_conf_dir = '/usr/hdp/current/hive-webhcat/etc/hcatalog'
-  config_dir = '/usr/hdp/current/hive-webhcat/etc/webhcat'
+# --- Tarballs ---
+webhcat_apps_dir = "/apps/webhcat"
 
-if Script.is_hdp_stack_greater_or_equal("2.2"):
-  hive_specific_configs_supported = True
+# In HDP 2.1, the tarballs were copied from and to different locations.
+# DON'T CHANGE THESE VARIABLE NAMES
+hive_tar_source = hive_tar_file
+pig_tar_source = pig_tar_file
+hive_tar_dest_file = webhcat_apps_dir + "/hive.tar.gz"
+pig_tar_dest_file = webhcat_apps_dir + "/pig.tar.gz"
 
-  component_directory = status_params.component_directory
-  hadoop_home = '/usr/hdp/current/hadoop-client'
-  hive_bin = format('/usr/hdp/current/{component_directory}/bin')
-  hive_lib = format('/usr/hdp/current/{component_directory}/lib')
+hadoop_streaming_tar_source = hadoop_streaming_jars   # this contains *
+sqoop_tar_source = sqoop_tar_file                     # this contains *
+hadoop_streaming_tar_dest_dir = webhcat_apps_dir
+sqoop_tar_dest_dir = webhcat_apps_dir
 
-  # there are no client versions of these, use server versions directly
-  hcat_lib = '/usr/hdp/current/hive-webhcat/share/hcatalog'
-  webhcat_bin_dir = '/usr/hdp/current/hive-webhcat/sbin'
-  
-  # --- Tarballs ---
-  # DON'T CHANGE THESE VARIABLE NAMES
-  # Values don't change from those in copy_tarball.py
-  hive_tar_source = "/usr/hdp/{0}/hive/hive.tar.gz".format(STACK_VERSION_PATTERN)
-  pig_tar_source = "/usr/hdp/{0}/pig/pig.tar.gz".format(STACK_VERSION_PATTERN)
-  hive_tar_dest_file = "/hdp/apps/{0}/hive/hive.tar.gz".format(STACK_VERSION_PATTERN)
-  pig_tar_dest_file = "/hdp/apps/{0}/pig/pig.tar.gz".format(STACK_VERSION_PATTERN)
-
-  hadoop_streaming_tar_source = "/usr/hdp/{0}/hadoop-mapreduce/hadoop-streaming.jar".format(STACK_VERSION_PATTERN)
-  sqoop_tar_source = "/usr/hdp/{0}/sqoop/sqoop.tar.gz".format(STACK_VERSION_PATTERN)
-  hadoop_streaming_tar_dest_dir = "/hdp/apps/{0}/mapreduce/".format(STACK_VERSION_PATTERN)
-  sqoop_tar_dest_dir = "/hdp/apps/{0}/sqoop/".format(STACK_VERSION_PATTERN)
-
-  tarballs_mode = 0444
-else:
-  # --- Tarballs ---
-  webhcat_apps_dir = "/apps/webhcat"
-
-  # In HDP 2.1, the tarballs were copied from and to different locations.
-  # DON'T CHANGE THESE VARIABLE NAMES
-  hive_tar_source = hive_tar_file
-  pig_tar_source = pig_tar_file
-  hive_tar_dest_file = webhcat_apps_dir + "/hive.tar.gz"
-  pig_tar_dest_file = webhcat_apps_dir + "/pig.tar.gz"
-
-  hadoop_streaming_tar_source = hadoop_streaming_jars   # this contains *
-  sqoop_tar_source = sqoop_tar_file                     # this contains *
-  hadoop_streaming_tar_dest_dir = webhcat_apps_dir
-  sqoop_tar_dest_dir = webhcat_apps_dir
-
-  tarballs_mode = 0755
+tarballs_mode = 0755
 
 execute_path = os.environ['PATH'] + os.pathsep + hive_bin + os.pathsep + hadoop_bin_dir
 hive_metastore_user_name = config['configurations']['hive-site']['javax.jdo.option.ConnectionUserName']
@@ -281,14 +241,7 @@ yarn_log_dir_prefix = config['configurations']['yarn-env']['yarn_log_dir_prefix'
 target = format("{hive_lib}/{jdbc_jar_name}")
 jars_in_hive_lib = format("{hive_lib}/*.jar")
 
-
-if Script.is_hdp_stack_less_than("2.2"):
-  source_jdbc_file = target
-else:
-  # normally, the JDBC driver would be referenced by /usr/hdp/current/.../foo.jar
-  # but in RU if hdp-select is called and the restart fails, then this means that current pointer
-  # is now pointing to the upgraded version location; that's bad for the cp command
-  source_jdbc_file = format("/usr/hdp/{current_version}/hive/lib/{jdbc_jar_name}")
+source_jdbc_file = target
 
 jdk_location = config['hostLevelParams']['jdk_location']
 driver_curl_source = format("{jdk_location}/{jdbc_symlink_name}")
@@ -299,10 +252,8 @@ start_metastore_path = format("{tmp_dir}/start_metastore_script")
 hadoop_heapsize = config['configurations']['hadoop-env']['hadoop_heapsize']
 
 if 'role' in config and config['role'] in ["HIVE_SERVER", "HIVE_METASTORE"]:
-  if Script.is_hdp_stack_less_than("2.2"):
-    hive_heapsize = config['configurations']['hive-site']['hive.heapsize']
-  else:
-    hive_heapsize = config['configurations']['hive-env']['hive.heapsize']
+#  hive_heapsize = config['configurations']['hive-site']['hive.heapsize']
+  hive_heapsize = config['configurations']['hive-env']['hive.metastore.heapsize']
 else:
   hive_heapsize = config['configurations']['hive-env']['hive.client.heapsize']
 
