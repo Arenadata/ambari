@@ -53,8 +53,7 @@
     <deb.priority>extra</deb.priority>
     <stack.distribution>ADH</stack.distribution>
 
-    <!-- Default supplement distribution is BigInsights for Ambari 2.5.2 and higher. -->
-    <supplemental.distribution>BigInsights</supplemental.distribution>
+    <supplemental.distribution>ADH</supplemental.distribution>
 
     <ambari.dir>${project.basedir}</ambari.dir>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
