@@ -126,7 +126,7 @@
 
   <property>
     <name>hue-hive-module-enabled</name>
-    <value>No</value>
+    <value>Yes</value>
     <display-name>Hue Hive Module</display-name>
     <description>Enable Hue Beeswax/Hive metastore Service Module</description>
     <value-attributes>
