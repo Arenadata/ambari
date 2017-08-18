@@ -1277,22 +1277,22 @@ var urls = {
     'mock': ''
   },
   'dashboard.cluster_metrics.cpu': {
-    'real': '/clusters/{clusterName}?fields=metrics/cpu/Nice._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/cpu/System._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/cpu/User._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/cpu/Idle._avg[{fromSeconds},{toSeconds},{stepSeconds}]',
+    'real': '/clusters/{clusterName}?fields=metrics/cpu/Nice._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/cpu/System._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/cpu/User._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/cpu/Idle._max[{fromSeconds},{toSeconds},{stepSeconds}]',
     'mock': '/data/cluster_metrics/cpu_1hr.json',
     'testInProduction': true
   },
   'dashboard.cluster_metrics.load': {
-    'real': '/clusters/{clusterName}/?fields=metrics/load/1-min._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/load/CPUs._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/load/Nodes._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/load/Procs._avg[{fromSeconds},{toSeconds},{stepSeconds}]',
+    'real': '/clusters/{clusterName}/?fields=metrics/load/1-min._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/load/CPUs._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/load/Nodes._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/load/Procs._max[{fromSeconds},{toSeconds},{stepSeconds}]',
     'mock': '/data/cluster_metrics/load_1hr.json',
     'testInProduction': true
   },
   'dashboard.cluster_metrics.memory': {
-    'real': '/clusters/{clusterName}/?fields=metrics/memory/Buffer._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/memory/Cache._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/memory/Share._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/memory/Swap._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/memory/Total._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/memory/Use._avg[{fromSeconds},{toSeconds},{stepSeconds}]',
+    'real': '/clusters/{clusterName}/?fields=metrics/memory/Buffer._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/memory/Cache._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/memory/Share._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/memory/Swap._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/memory/Total._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/memory/Use._max[{fromSeconds},{toSeconds},{stepSeconds}]',
     'mock': '/data/cluster_metrics/memory_1hr.json',
     'testInProduction': true
   },
   'dashboard.cluster_metrics.network': {
-    'real': '/clusters/{clusterName}/?fields=metrics/network/In._avg[{fromSeconds},{toSeconds},{stepSeconds}],metrics/network/Out._avg[{fromSeconds},{toSeconds},{stepSeconds}]',
+    'real': '/clusters/{clusterName}/?fields=metrics/network/In._max[{fromSeconds},{toSeconds},{stepSeconds}],metrics/network/Out._max[{fromSeconds},{toSeconds},{stepSeconds}]',
     'mock': '/data/cluster_metrics/network_1hr.json',
     'testInProduction': true
   },
