@@ -137,13 +137,13 @@
             {
               "name": "secondary_namenode_nn",
               "principal": {
-                "value": "nn/_HOST@${realm}",
+                "value": "sn/_HOST@${realm}",
                 "type" : "service",
                 "configuration": "hdfs-site/dfs.secondary.namenode.kerberos.principal",
                 "local_username" : "${hadoop-env/hdfs_user}"
               },
               "keytab": {
-                "file": "${keytab_dir}/nn.service.keytab",
+                "file": "${keytab_dir}/sn.service.keytab",
                 "owner": {
                   "name": "${hadoop-env/hdfs_user}",
                   "access": "r"
