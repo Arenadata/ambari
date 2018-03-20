@@ -257,7 +257,7 @@
             <fileEncoding>utf-8</fileEncoding>
           </posttransScriptlet>
 
-          <needarch>x86_64</needarch>
+          <needarch>noarch</needarch>
           <autoRequires>false</autoRequires>
           <mappings>
             <mapping>
