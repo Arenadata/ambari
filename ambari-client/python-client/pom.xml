@@ -133,7 +133,7 @@
             <require>zlib</require>
             <require>${python.ver}</require>
           </requires>
-          <needarch>x86_64</needarch>
+          <needarch>ppc64le</needarch>
           <autoRequires>false</autoRequires>
           <mappings>
             <mapping>

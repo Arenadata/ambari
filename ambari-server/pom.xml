@@ -429,7 +429,7 @@
             <scriptFile>src/main/package/rpm/posttrans_server.sh</scriptFile>
             <fileEncoding>utf-8</fileEncoding>
           </posttransScriptlet>
-          <needarch>x86_64</needarch>
+          <needarch>ppc64le</needarch>
           <mappings>
             <mapping>
               <directory>/etc</directory>
