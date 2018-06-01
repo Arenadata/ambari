@@ -85,13 +85,6 @@
     <property-type>PASSWORD</property-type>
     <description>This is the password for default admin user that is used for creating ambari user in Ranger Admin</description>
   </property>
-  
-
-  <property>
-    <name>xml_configurations_supported</name>
-    <value>true</value>
-    <description></description>
-  </property>
 
   <property>
     <name>ranger_pid_dir</name>
