@@ -24,7 +24,7 @@
     <name>proxy</name>
     <service-class>org.apache.oozie.ambari.view.OozieProxyImpersonator</service-class>
   </resource>
-	
+
   <parameter>
     <name>oozie.service.uri</name>
     <description>Oozie service URI for the Oozie API.</description>
@@ -162,13 +162,13 @@
 
     </persistence>
 
-  <!--<auto-instance>
+  <auto-instance>
     <name>AUTO_OOZIE_VIEW</name>
     <label>Oozie UI View</label>
     <description>This auto-created Oozie View Instance allows accessing and managing Oozie jobs as well as interactively design new Workflows.</description>
-    <stack-id>HDP-2.*</stack-id>
+    <stack-id>HDP-1.*</stack-id>
     <services>
       <service>OOZIE</service>
     </services>
-  </auto-instance>-->
+  </auto-instance>
 </view>
