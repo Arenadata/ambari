@@ -132,7 +132,9 @@ def execute(configurations={}, parameters={}, host_name=None):
                     tries=3,
                     try_sleep=1,
                     logoutput=True,
-                    user=livyuser
+                    user=livyuser,
+                    timeout=CHECK_COMMAND_TIMEOUT_DEFAULT,
+                    timeout_kill_strategy=TerminateStrategy.KILL_PROCESS_TREE
                     )
 
             total_time = time.time() - start_time
