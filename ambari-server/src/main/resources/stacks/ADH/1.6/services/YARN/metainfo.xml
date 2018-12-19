@@ -23,6 +23,13 @@
       <name>YARN</name>
       <displayName>YARN</displayName>
       <version>2.8.5.1.6</version>
+      <configuration-dir>configuration</configuration-dir>
+      <configuration-dependencies>
+        <config-type>ranger-yarn-plugin-properties</config-type>
+        <config-type>ranger-yarn-audit</config-type>
+        <config-type>yarn-env</config-type>
+        <config-type>yarn-site</config-type>
+      </configuration-dependencies>
     </service>
     <service>
       <name>MAPREDUCE2</name>
@@ -30,6 +37,7 @@
       <version>2.8.5.1.6</version>
       <configuration-dir>configuration-mapred</configuration-dir>
     </service>
+
 
 
   </services>

@@ -23,12 +23,25 @@
       <name>YARN</name>
       <displayName>YARN</displayName>
       <version>2.7.3.1.4</version>
+      <configuration-dir>configuration</configuration-dir>
       <components>
         <component>
           <name>APP_TIMELINE_SERVER</name>
           <cardinality>1</cardinality>
           <versionAdvertised>true</versionAdvertised>
           <reassignAllowed>true</reassignAllowed>
+        </component>
+        <component>
+          <name>RESOURCEMANAGER</name>
+          <displayName>ResourceManager</displayName>
+          <category>MASTER</category>
+          <cardinality>1</cardinality>
+          <versionAdvertised>true</versionAdvertised>
+          <reassignAllowed>true</reassignAllowed>
+          <configuration-dependencies>
+            <config-type>capacity-scheduler</config-type>
+            <config-type>hdfs-site</config-type>
+          </configuration-dependencies>
         </component>
       </components>
 
@@ -65,6 +78,17 @@
           <default>true</default>
         </theme>
       </themes>
+
+      <configuration-dependencies>
+        <config-type>capacity-scheduler</config-type>
+        <config-type>ranger-yarn-audit</config-type>
+        <config-type>ranger-yarn-plugin-properties</config-type>
+        <config-type>ranger-yarn-policymgr-ssl</config-type>
+        <config-type>ranger-yarn-security</config-type>
+        <config-type>yarn-env</config-type>
+        <config-type>yarn-site</config-type>
+      </configuration-dependencies>
+
     <quickLinksConfigurations>
         <quickLinksConfiguration>
           <fileName>quicklinks.json</fileName>
@@ -111,6 +135,7 @@
         </quickLinksConfiguration>
       </quickLinksConfigurations>
     </service>
+
 
   </services>
 </metainfo>

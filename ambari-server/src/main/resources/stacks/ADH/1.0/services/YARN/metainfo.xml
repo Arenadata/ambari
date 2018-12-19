@@ -134,7 +134,7 @@
               <type>xml</type>
               <fileName>capacity-scheduler.xml</fileName>
               <dictionaryName>capacity-scheduler</dictionaryName>
-            </configFile>                        
+            </configFile>
           </configFiles>
         </component>
       </components>
@@ -161,7 +161,7 @@
         <scriptType>PYTHON</scriptType>
         <timeout>300</timeout>
       </commandScript>
-      
+
       <requiredServices>
         <service>HDFS</service>
         <service>MAPREDUCE2</service>
@@ -175,10 +175,6 @@
         <config-type>core-site</config-type>
         <config-type>mapred-site</config-type>
         <config-type>yarn-log4j</config-type>
-        <config-type>ranger-yarn-plugin-properties</config-type>
-        <config-type>ranger-yarn-audit</config-type>
-        <config-type>ranger-yarn-policymgr-ssl</config-type>
-        <config-type>ranger-yarn-security</config-type>
       </configuration-dependencies>
       <widgetsFileName>YARN_widgets.json</widgetsFileName>
       <metricsFileName>YARN_metrics.json</metricsFileName>
@@ -284,7 +280,7 @@
         <scriptType>PYTHON</scriptType>
         <timeout>300</timeout>
       </commandScript>
-      
+
       <requiredServices>
         <service>YARN</service>
       </requiredServices>
