@@ -56,7 +56,7 @@
   </property>
   <property>
     <name>XAAUDIT.DB.IS_ENABLED</name>
-    <value>true</value>
+    <value>false</value>
     <display-name>Audit to DB</display-name>
     <description/>
     <value-attributes>

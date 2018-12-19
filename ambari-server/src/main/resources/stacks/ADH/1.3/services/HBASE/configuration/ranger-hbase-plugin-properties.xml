@@ -27,7 +27,7 @@
     <value-attributes>
       <empty-value-valid>true</empty-value-valid>
     </value-attributes>
-  </property>      
+  </property>
 
   <property>
     <name>policy_user</name>
@@ -35,7 +35,7 @@
     <display-name>Policy user for HBASE</display-name>
     <description>This user must be system user and also present at Ranger admin portal</description>
   </property>
-  
+
   <property>
     <name>ranger-hbase-plugin-enabled</name>
     <value>No</value>
@@ -58,7 +58,7 @@
     <value>hbase</value>
     <display-name>Ranger repository config user</display-name>
     <description>Used for repository creation on ranger admin</description>
-  </property> 
+  </property>
 
   <property>
     <name>REPOSITORY_CONFIG_PASSWORD</name>
@@ -66,11 +66,11 @@
     <display-name>Ranger repository config password</display-name>
     <property-type>PASSWORD</property-type>
     <description>Used for repository creation on ranger admin</description>
-  </property> 
+  </property>
 
   <property>
     <name>XAAUDIT.DB.IS_ENABLED</name>
-    <value>true</value>
+    <value>false</value>
     <display-name>Audit to DB</display-name>
     <description></description>
     <value-attributes>
@@ -82,7 +82,7 @@
         <name>xasecure.audit.destination.db</name>
       </property>
     </depends-on>
-  </property> 
+  </property>
 
   <property>
     <name>XAAUDIT.HDFS.IS_ENABLED</name>
@@ -208,54 +208,54 @@
       <type>boolean</type>
     </value-attributes>
   </property>
-  
+
   <property>
     <name>POLICY_MGR_URL</name>
     <value>{{policymgr_mgr_url}}</value>
-    <description>Policy Manager url</description>    
-  </property> 
-  
+    <description>Policy Manager url</description>
+  </property>
+
   <property>
     <name>SQL_CONNECTOR_JAR</name>
     <value>{{sql_connector_jar}}</value>
-    <description>Location of DB client library (please check the location of the jar file)</description>    
-  </property> 
-  
+    <description>Location of DB client library (please check the location of the jar file)</description>
+  </property>
+
   <property>
     <name>XAAUDIT.DB.FLAVOUR</name>
     <value>{{xa_audit_db_flavor}}</value>
-    <description>The database type to be used (mysql/oracle)</description>    
-  </property> 
-  
+    <description>The database type to be used (mysql/oracle)</description>
+  </property>
+
   <property>
     <name>XAAUDIT.DB.DATABASE_NAME</name>
     <value>{{xa_audit_db_name}}</value>
-    <description>Audit database name</description>    
-  </property> 
-  
+    <description>Audit database name</description>
+  </property>
+
   <property>
     <name>XAAUDIT.DB.USER_NAME</name>
     <value>{{xa_audit_db_user}}</value>
-    <description>Audit database user</description>    
-  </property> 
-  
+    <description>Audit database user</description>
+  </property>
+
   <property>
     <name>XAAUDIT.DB.PASSWORD</name>
     <value>{{xa_audit_db_password}}</value>
     <property-type>PASSWORD</property-type>
-    <description>Audit database password</description>    
+    <description>Audit database password</description>
   </property>
-  
+
   <property>
     <name>XAAUDIT.DB.HOSTNAME</name>
     <value>{{xa_db_host}}</value>
     <description>Audit database hostname</description>
   </property>
-  
+
   <property>
     <name>REPOSITORY_NAME</name>
     <value>{{repo_name}}</value>
-    <description>Ranger repository name</description>    
+    <description>Ranger repository name</description>
   </property>
-  
+
 </configuration>
