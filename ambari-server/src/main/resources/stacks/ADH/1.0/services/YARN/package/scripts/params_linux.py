@@ -470,7 +470,7 @@ ranger_admin_hosts = default("/clusterHostInfo/ranger_admin_hosts", [])
 has_ranger_admin = not len(ranger_admin_hosts) == 0
 
 # ranger support xml_configuration flag, instead of depending on ranger xml_configurations_supported/ranger-env, using stack feature
-xml_configurations_supported = check_stack_feature(StackFeature.RANGER_XML_CONFIGURATION, version_for_stack_feature_checks)
+xml_configurations_supported = True
 
 # ambari-server hostname
 ambari_server_hostname = config['clusterHostInfo']['ambari_server_host'][0]
