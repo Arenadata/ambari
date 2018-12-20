@@ -38,7 +38,7 @@ from resource_management.libraries.functions.default import default
 from resource_management.libraries import functions
 from resource_management.libraries.functions import is_empty
 from resource_management.libraries.functions.get_architecture import get_architecture
-from resource_management.libraries.functions.setup_ranger_plugin_xml import get_audit_configs, generate_ranger_service_config
+from resource_management.libraries.functions.adh_setup_ranger_plugin_xml import get_audit_configs, generate_ranger_service_config
 
 import status_params
 
