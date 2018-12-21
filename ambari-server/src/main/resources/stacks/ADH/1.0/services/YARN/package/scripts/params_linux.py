@@ -470,7 +470,7 @@ ranger_admin_hosts = default("/clusterHostInfo/ranger_admin_hosts", [])
 has_ranger_admin = not len(ranger_admin_hosts) == 0
 
 # ranger support xml_configuration flag, instead of depending on ranger xml_configurations_supported/ranger-env, using stack feature
-xml_configurations_supported = True
+xml_configurations_supported = config['configurations']['ranger-env']['xml_configurations_supported']
 
 # ambari-server hostname
 ambari_server_hostname = config['clusterHostInfo']['ambari_server_host'][0]
@@ -480,7 +480,7 @@ enable_ranger_yarn = default("/configurations/ranger-yarn-plugin-properties/rang
 enable_ranger_yarn = True if enable_ranger_yarn.lower() == 'yes' else False
 
 # ranger yarn-plugin supported flag, instead of using is_supported_yarn_ranger/yarn-env, using stack feature
-is_supported_yarn_ranger = check_stack_feature(StackFeature.YARN_RANGER_PLUGIN_SUPPORT, version_for_stack_feature_checks)
+is_supported_yarn_ranger = True
 
 # get ranger yarn properties if enable_ranger_yarn is True
 if enable_ranger_yarn and is_supported_yarn_ranger:
