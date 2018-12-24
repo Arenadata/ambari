@@ -64,20 +64,19 @@ class MetadataServer(Script):
     atlas_hbase_setup_command = format("cat {atlas_hbase_setup} | hbase shell -n")
     atlas_hbase_secure_setup_command = format("cat {atlas_hbase_secure_setup} | hbase shell -n")
     atlas_kafka_setup_command = format("bash {atlas_kafka_setup}")
-    secure_atlas_hbase_setup_command = format("kinit -kt {hbase_user_keytab} {hbase_principal_name}; ") + atlas_hbase_secure_setup_command 
+    secure_atlas_hbase_setup_command = format("kinit -kt {hbase_user_keytab} {hbase_principal_name}; ") + atlas_hbase_secure_setup_command
     # in case if principal was distributed across several hosts, pattern need to be replaced to right one
     secure_atlas_kafka_setup_command = format("kinit -kt {kafka_keytab} {kafka_principal_name}; ").replace("_HOST", params.hostname) + atlas_kafka_setup_command
 
-    #if params.stack_supports_atlas_ranger_plugin:
-    #  Logger.info('Atlas plugin is enabled, configuring Atlas plugin.')
-    #  setup_ranger_atlas(upgrade_type=upgrade_type)
-    #else:
-    #  Logger.info('Atlas plugin is not supported or enabled.')
+    if params.enable_ranger_atlas:
+      Logger.info('Atlas plugin is enabled, configuring Atlas plugin.')
+      setup_ranger_atlas(upgrade_type=upgrade_type)
+    else:
+      Logger.info('Atlas plugin is not supported or enabled.')
 
-    try:
-
+    if params.stack_supports_zk_security:
       if params.security_enabled and params.has_hbase_master:
-        Execute(secure_atlas_hbase_setup_command,
+        Execute(secure_atlas_hbase_secure_setup_command,
                 tries = 5,
                 try_sleep = 10,
                 user=params.hbase_user
@@ -89,22 +88,21 @@ class MetadataServer(Script):
                 user=params.hbase_user
         )
 
-      if params.security_enabled:
-        try:
-          Execute(secure_atlas_kafka_setup_command,
-                  user=params.kafka_user,
-                  tries=5,
-                  try_sleep=10
-          )
-        except Fail:
-          pass  # do nothing and do not block Atlas start, fail logs would be available via Execute internals
+    if params.security_enabled:
+      try:
+        Execute(secure_atlas_kafka_setup_command,
+                user=params.kafka_user,
+                tries=5,
+                try_sleep=10
+        )
+      except Fail:
+        pass  # do nothing and do not block Atlas start, fail logs would be available via Execute internals
 
-      Execute(daemon_cmd,
-              user=params.metadata_user,
-              not_if=no_op_test
-      )
-    except:
-      raise
+    Execute(daemon_cmd,
+            user=params.metadata_user,
+            not_if=no_op_test
+    )
+
 
   def stop(self, env, upgrade_type=None):
     import params

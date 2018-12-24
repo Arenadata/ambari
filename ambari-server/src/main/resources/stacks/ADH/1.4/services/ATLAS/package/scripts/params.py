@@ -87,7 +87,7 @@ cluster_name = config['clusterName']
 java_version = expect("/hostLevelParams/java_version", int)
 
 zk_root = default('/configurations/application-properties/atlas.server.ha.zookeeper.zkroot', '/apache_atlas')
-stack_supports_zk_security = check_stack_feature(StackFeature.SECURE_ZOOKEEPER, version_for_stack_feature_checks)
+stack_supports_zk_security = True
 atlas_kafka_group_id = default('/configurations/application-properties/atlas.kafka.hook.group.id', None)
 
 if security_enabled:
@@ -232,7 +232,7 @@ for host in zookeeper_hosts:
   if index < len(zookeeper_hosts):
     zookeeper_quorum += ","
 
-stack_supports_atlas_hdfs_site_on_namenode_ha = check_stack_feature(StackFeature.ATLAS_HDFS_SITE_ON_NAMENODE_HA, version_for_stack_feature_checks)
+stack_supports_atlas_hdfs_site_on_namenode_ha = True
 
 atlas_server_xmx = default("configurations/atlas-env/atlas_server_xmx", 2048)
 atlas_server_max_new_size = default("configurations/atlas-env/atlas_server_max_new_size", 614)
@@ -297,11 +297,11 @@ has_ranger_admin = not len(ranger_admin_hosts) == 0
 
 retry_enabled = default("/commandParams/command_retry_enabled", False)
 
-stack_supports_atlas_ranger_plugin = check_stack_feature(StackFeature.ATLAS_RANGER_PLUGIN_SUPPORT, version_for_stack_feature_checks)
-stack_supports_ranger_kerberos = check_stack_feature(StackFeature.RANGER_KERBEROS_SUPPORT, version_for_stack_feature_checks)
+stack_supports_atlas_ranger_plugin = True
+stack_supports_ranger_kerberos = True
 
 # ranger support xml_configuration flag, instead of depending on ranger xml_configurations_supported/ranger-env, using stack feature
-xml_configurations_supported = check_stack_feature(StackFeature.RANGER_XML_CONFIGURATION, version_for_stack_feature_checks)
+xml_configurations_supported = config['configurations']['ranger-env']['xml_configurations_supported']
 
 # ranger atlas plugin enabled property
 enable_ranger_atlas = default("/configurations/ranger-atlas-plugin-properties/ranger-atlas-plugin-enabled", "No")
