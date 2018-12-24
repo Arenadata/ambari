@@ -241,6 +241,7 @@ hbase_master_hosts = default('/clusterHostInfo/hbase_master_hosts', [])
 has_hbase_master = not len(hbase_master_hosts) == 0
 
 atlas_hbase_setup = format("{exec_tmp_dir}/atlas_hbase_setup.rb")
+atlas_hbase_secure_setup = format("{exec_tmp_dir}/atlas_hbase_secure_setup.rb")
 atlas_kafka_setup = format("{exec_tmp_dir}/atlas_kafka_acl.sh")
 atlas_graph_storage_hbase_table = default('/configurations/application-properties/atlas.graph.storage.hbase.table', None)
 atlas_audit_hbase_tablename = default('/configurations/application-properties/atlas.audit.hbase.tablename', None)

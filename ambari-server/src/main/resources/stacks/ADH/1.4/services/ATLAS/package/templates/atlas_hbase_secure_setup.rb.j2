@@ -37,6 +37,3 @@ if not list.include? _tbl_audit
     raise e if not e.message.include? "Table already exists"
   end
 end
-
-grant _usr_atlas, 'RWCA', _tbl_titan
-grant _usr_atlas, 'RWCA', _tbl_audit
