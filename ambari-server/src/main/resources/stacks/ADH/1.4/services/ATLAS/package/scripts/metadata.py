@@ -159,11 +159,17 @@ def metadata(type='server'):
         secure_znode(format('{infra_solr_znode}/collections/edge_index'), jaasFile)
         secure_znode(format('{infra_solr_znode}/collections/fulltext_index'), jaasFile)
 
-    File(params.atlas_hbase_setup,
-         group=params.user_group,
-         owner=params.hbase_user,
-         content=Template("atlas_hbase_setup.rb.j2")
-    )
+        File(params.atlas_hbase_secure_setup,
+             group=params.user_group,
+             owner=params.hbase_user,
+             content=Template("atlas_hbase_secure_setup.rb.j2")
+        )
+      else:
+        File(params.atlas_hbase_setup,
+             group=params.user_group,
+             owner=params.hbase_user,
+             content=Template("atlas_hbase_setup.rb.j2")
+        )
 
     is_atlas_upgrade_support = check_stack_feature(StackFeature.ATLAS_UPGRADE_SUPPORT, get_stack_feature_version(params.config))
 
