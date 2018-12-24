@@ -116,6 +116,14 @@
   </property>
 
   <property>
+    <name>nifi.install.dir</name>
+    <value>/usr/lib/nifi</value>
+    <display-name>Nifi installation  dir</display-name>
+    <description>The directory to NiFi source files</description>
+    <on-ambari-upgrade add="true"/>
+  </property>
+
+  <property>
     <name>nifi.config.dir</name>
     <value>{nifi_install_dir}/conf</value>
     <display-name>Nifi config dir</display-name>    

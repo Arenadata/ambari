@@ -56,7 +56,7 @@ current_version = default("/hostLevelParams/current_version", None)
 #upgrade direction
 upgrade_direction = default("/commandParams/upgrade_direction", None)
 
-nifi_install_dir = os.path.join(stack_root, "nifi")
+#nifi_install_dir = os.path.join(stack_root, "nifi")
  
 # params from nifi-ambari-config
 nifi_initial_mem = config['configurations']['nifi-ambari-config']['nifi.initial_mem']
@@ -72,6 +72,7 @@ nifi_node_protocol_port = config['configurations']['nifi-ambari-config']['nifi.n
 #zookeeper node path
 nifi_znode = config['configurations']['nifi-ambari-config']['nifi.nifi_znode']
 
+nifi_install_dir=config['configurations']['nifi-ambari-config']['nifi.install.dir']
 nifi_internal_dir=config['configurations']['nifi-ambari-config']['nifi.internal.dir']
 nifi_state_dir=config['configurations']['nifi-ambari-config']['nifi.state.dir']
 nifi_database_dir=config['configurations']['nifi-ambari-config']['nifi.database.dir']
