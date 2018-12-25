@@ -612,7 +612,7 @@ class ADH14StackAdvisor(ADH13StackAdvisor):
 
         zookeeper_host_arr.append(zookeeper_host)
 
-      solr_zookeeper_url = ",".join(zookeeper_host_arr)
+      solr_zookeeper_url = "/infra-solr,".join(zookeeper_host_arr)
 
       putAtlasApplicationProperty('atlas.graph.index.search.solr.zookeeper-url', solr_zookeeper_url + "/infra-solr")
     else:

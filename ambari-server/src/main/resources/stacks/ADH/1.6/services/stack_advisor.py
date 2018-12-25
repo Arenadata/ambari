@@ -165,7 +165,7 @@ class ADH16StackAdvisor(ADH15StackAdvisor):
       zookeeper_host = zookeeper_hosts[i] + ':' + zookeeper_port
       zookeeper_host_arr.append(zookeeper_host)
 
-    solr_zookeeper_url = ",".join(zookeeper_host_arr)
+    solr_zookeeper_url = "/infra-solr,".join(zookeeper_host_arr)
     putAtlasApplicationProperty('atlas.graph.index.search.solr.zookeeper-url', solr_zookeeper_url + "/infra-solr")
 
   def recommendDruidConfigurations(self, configurations, clusterData, services, hosts):
@@ -651,7 +651,7 @@ class ADH16StackAdvisor(ADH15StackAdvisor):
     putHiveAtlasHookPropertyAttribute = self.putPropertyAttribute(configurations,"hive-atlas-application.properties")
     putHiveEnvProperty = self.putProperty(configurations, "hive-env", services)
     putHiveSiteProperty = self.putProperty(configurations, "hive-site", services)
-    
+
     if 'hive-env' in services['configurations'] and 'hive_user' in services['configurations']['hive-env']['properties']:
       hive_user = services['configurations']['hive-env']['properties']['hive_user']
     else:
