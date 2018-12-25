@@ -4,98 +4,71 @@
   "configuration": {
     "protocol":
     {
-      "type":"http"
+      "type":"https",
+      "checks":[
+        {
+          "property":"dfs.http.policy",
+          "desired":"HTTPS_ONLY",
+          "site":"hdfs-site"
+        }
+      ]
     },
 
     "links": [
       {
-        "name": "hbase_master_ui",
-        "label": "HBase Master UI",
-        "component_name": "HBASE_MASTER",
-        "url":"%@://%@:%@/master-status",
+        "name": "namenode_ui",
+        "label": "NameNode UI",
+        "url":"%@://%@:%@",
         "requires_user_name": "false",
         "port":{
-          "http_property": "hbase.master.info.port",
-          "http_default_port": "60010",
-          "https_property": "hbase.master.info.port",
-          "https_default_port": "60443",
-          "regex": "",
-          "site": "hbase-site"
+          "http_property": "dfs.namenode.http-address",
+          "http_default_port": "50070",
+          "https_property": "dfs.namenode.https-address",
+          "https_default_port": "50470",
+          "regex": "\\w*:(\\d+)",
+          "site": "hdfs-site"
         }
       },
       {
-        "name": "hbase_logs",
-        "label": "HBase Logs",
-        "component_name": "HBASE_MASTER",
+        "name": "namenode_logs",
+        "label": "NameNode Logs",
         "url":"%@://%@:%@/logs",
         "requires_user_name": "false",
         "port":{
-          "http_property": "hbase.master.info.port",
-          "http_default_port": "60010",
-          "https_property": "hbase.master.info.port",
-          "https_default_port": "60443",
-          "regex": "",
-          "site": "hbase-site"
+          "http_property": "dfs.namenode.http-address",
+          "http_default_port": "50070",
+          "https_property": "dfs.namenode.https-address",
+          "https_default_port": "50470",
+          "regex": "\\w*:(\\d+)",
+          "site": "hdfs-site"
         }
       },
       {
-        "name": "zookeeper_info",
-        "label": "Zookeeper Info",
-        "component_name": "HBASE_MASTER",
-        "url":"%@://%@:%@/zk.jsp",
-        "requires_user_name": "false",
-        "port":{
-          "http_property": "hbase.master.info.port",
-          "http_default_port": "60010",
-          "https_property": "hbase.master.info.port",
-          "https_default_port": "60443",
-          "regex": "",
-          "site": "hbase-site"
-        }
-      },
-      {
-        "name": "hbase_master_jmx",
-        "label": "HBase Master JMX",
-        "component_name": "HBASE_MASTER",
+        "name": "namenode_jmx",
+        "label": "NameNode JMX",
         "url":"%@://%@:%@/jmx",
         "requires_user_name": "false",
         "port":{
-          "http_property": "hbase.master.info.port",
-          "http_default_port": "60010",
-          "https_property": "hbase.master.info.port",
-          "https_default_port": "60443",
-          "regex": "",
-          "site": "hbase-site"
+          "http_property": "dfs.namenode.http-address",
+          "http_default_port": "50070",
+          "https_property": "dfs.namenode.https-address",
+          "https_default_port": "50470",
+          "regex": "\\w*:(\\d+)",
+          "site": "hdfs-site"
         }
       },
       {
-        "name": "debug_dump",
-        "label": "Debug Dump",
-        "component_name": "HBASE_MASTER",
-        "url":"%@://%@:%@/dump",
-        "requires_user_name": "false",
-        "port":{
-          "http_property": "hbase.master.info.port",
-          "http_default_port": "60010",
-          "https_property": "hbase.master.info.port",
-          "https_default_port": "60443",
-          "regex": "",
-          "site": "hbase-site"
-        }
-      },
-      {
-        "name": "thread_stacks",
+        "name": "Thread Stacks",
         "label": "Thread Stacks",
-        "component_name": "HBASE_MASTER",
         "url":"%@://%@:%@/stacks",
         "requires_user_name": "false",
         "port":{
-          "http_property": "hbase.master.info.port",
-          "http_default_port": "60010",
-          "https_property": "hbase.master.info.port",
-          "https_default_port": "60443",
-          "regex": "",
-          "site": "hbase-site"
+          "http_property": "dfs.namenode.http-address",
+          "http_default_port": "50070",
+          "https_property": "dfs.namenode.https-address",
+          "https_default_port": "50470",
+          "regex": "\\w*:(\\d+)",
+          "site": "hdfs-site"
         }
       }
     ]
