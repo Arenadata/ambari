@@ -20,6 +20,7 @@ from resource_management.core.resources.system import File
 from resource_management.libraries.functions import check_process_status, format
 
 def hbase_thrift_server(action = 'start'): # 'start', 'stop', 'status'
+    import params
     pid_file = format("{pid_dir}/hbase-{hbase_user}-thrift.pid")
     no_op_test = format("ls {pid_file} >/dev/null 2>&1 && ps -p `cat {pid_file}` >/dev/null 2>&1")
 
@@ -27,11 +28,16 @@ def hbase_thrift_server(action = 'start'): # 'start', 'stop', 'status'
       check_process_status(pid_file)
     else:
       env = {'JAVA_HOME': format("{java64_home}"), 'HBASE_CONF_DIR': format("{hbase_conf_dir}")}
-      if action == 'start':
+      if action == 'start' and not params.security_enabled:
         Execute(format("{thrift_daemon_script} {action} thrift -p 9010 --infoport 9020"),
                 user=format("{hbase_user}"),
                 environment=env)
-  
+
+      elif action == 'start' and params.security_enabled:
+        Execute(format("{kinit_path_local} -kt {master_keytab_path} {master_jaas_princ}; {thrift_daemon_script} {action} thrift -p 9010 --infoport 9020"),
+                user=format("{hbase_user}"),
+                environment=env)
+
       elif action == 'stop':
         Execute(format("{thrift_daemon_script} {action} thrift"),
                 timeout = 30,
