@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from resource_management.libraries.functions import conf_select
+from resource_management.libraries.functions import conf_select, check_process_status, format
 from resource_management.libraries.script import Script
 from hbase_thrift import hbase_thrift_server
 from hbase import hbase
