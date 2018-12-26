@@ -48,7 +48,8 @@ class HBaseThriftServer(Script):
   def status(self, env):
     import status_params
     env.set_params(status_params)
-    hbase_thrift_server('status')
+    pid_file = format("{pid_dir}/hbase-{hbase_user}-thrift.pid")
+    check_process_status(pid_file)
 
   def security_status(self, env):
     check_process_status(status_params.spark_thrift_server_pid_file)
