@@ -40,7 +40,10 @@
             "hbase.coprocessor.master.classes": "{{hbase_coprocessor_master_classes}}",
             "hbase.coprocessor.region.classes": "{{hbase_coprocessor_region_classes}}",
             "hbase.coprocessor.regionserver.classes": "{{hbase_coprocessor_regionserver_classes}}",
-            "hbase.bulkload.staging.dir": "/apps/hbase/staging"
+            "hbase.bulkload.staging.dir": "/apps/hbase/staging",
+            "hbase.thrift.security.qop": "auth",
+            "hbase.thrift.support.proxyuser": "true",
+            "hbase.regionserver.thrift.http": "true"
           }
         }
       ],
@@ -96,6 +99,52 @@
                   "access": ""
                 },
                 "configuration": "hbase-site/hbase.regionserver.keytab.file"
+              }
+            }
+          ]
+        },
+        {
+          "name": "HBASE_THRIFT_SERVER",
+          "identities": [
+            {
+              "name": "hbase_thriftserver_hbase",
+              "principal": {
+                "value": "hbase/_HOST@${realm}",
+                "type" : "service",
+                "configuration": "hbase-site/hbase.thrift.kerberos.principal",
+                "local_username": "${hbase-env/hbase_user}"
+              },
+              "keytab": {
+                "file": "${keytab_dir}/hbase.thrift.keytab",
+                "owner": {
+                  "name": "${hbase-env/hbase_user}",
+                  "access": "r"
+                },
+                "group": {
+                  "name": "${cluster-env/user_group}",
+                  "access": ""
+                },
+                "configuration": "hbase-site/hbase.thrift.keytab.file"
+              }
+            },
+            {
+              "name": "hbase_thriftserver_spnego",
+              "reference": "/spnego",
+              "principal": {
+                "value": "HTTP/_HOST@${realm}",
+                "configuration": "hbase-site/hbase.security.authentication.spnego.kerberos.principal"
+              },
+              "keytab": {
+                "file": "${keytab_dir}/hbase.thrift.spnego.keytab",
+                "owner": {
+                  "name": "${hbase-env/hbase_user}",
+                  "access": "r"
+                },
+                "group": {
+                  "name": "${cluster-env/user_group}",
+                  "access": ""
+                },
+                "configuration": "hbase-site/hbase.security.authentication.spnego.kerberos.keytab"
               }
             }
           ]
