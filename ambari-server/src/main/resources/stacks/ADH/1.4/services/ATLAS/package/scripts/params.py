@@ -273,8 +273,7 @@ if True: #check_stack_feature(StackFeature.ATLAS_UPGRADE_SUPPORT, version_for_st
   kafka_kerberos_enabled = (('security.inter.broker.protocol' in config['configurations']['kafka-broker']) and
                             ((config['configurations']['kafka-broker']['security.inter.broker.protocol'] == "PLAINTEXTSASL") or
                              (config['configurations']['kafka-broker']['security.inter.broker.protocol'] == "SASL_PLAINTEXT")))
-  if security_enabled and stack_version_formatted != "" and 'kafka_principal_name' in config['configurations']['kafka-env'] \
-    and check_stack_feature(StackFeature.KAFKA_KERBEROS, stack_version_formatted):
+  if security_enabled and 'kafka_principal_name' in config['configurations']['kafka-env']:
     _hostname_lowercase = config['hostname'].lower()
     _kafka_principal_name = config['configurations']['kafka-env']['kafka_principal_name']
     kafka_jaas_principal = _kafka_principal_name.replace('_HOST', _hostname_lowercase)

@@ -76,7 +76,7 @@ class MetadataServer(Script):
 
     if params.stack_supports_zk_security:
       if params.security_enabled and params.has_hbase_master:
-        Execute(secure_atlas_hbase_secure_setup_command,
+        Execute(secure_atlas_hbase_setup_command,
                 tries = 5,
                 try_sleep = 10,
                 user=params.hbase_user
