@@ -13,7 +13,8 @@
             "atlas.jaas.KafkaClient.option.useKeyTab": "true",
             "atlas.jaas.KafkaClient.option.storeKey": "true",
             "atlas.jaas.KafkaClient.option.serviceName": "${kafka-env/kafka_user}",
-            "atlas.solr.kerberos.enable": "true"
+            "atlas.solr.kerberos.enable": "true",
+            "atlas.server.ha.zookeeper.acl" : "auth:"
           }
         },
         {
@@ -92,10 +93,7 @@
             },
             {
               "name": "atlas_atlas_server_infra-solr",
-              "reference": "/AMBARI_INFRA/INFRA_SOLR/infra-solr",
-              "when" : {
-                "contains" : ["services", "AMBARI_INFRA"]
-              }
+              "reference": "/AMBARI_INFRA/INFRA_SOLR/infra-solr"
             }
           ]
         }
