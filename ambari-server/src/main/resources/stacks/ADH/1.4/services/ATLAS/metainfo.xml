@@ -139,6 +139,9 @@
             <package>
               <name>ranger-atlas-plugin</name>
             </package>
+            <package>
+              <name>kafka</name>
+            </package>
           </packages>
         </osSpecific>
         <osSpecific>
@@ -149,6 +152,9 @@
             </package>
             <package>
               <name>ranger-atlas-plugin</name>
+            </package>
+            <package>
+              <name>kafka</name>
             </package>
           </packages>
         </osSpecific>
