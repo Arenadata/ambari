@@ -44,7 +44,7 @@ component_directory = status_params.component_directory
 version = default("/commandParams/version", None)
 
 # default parameters
-zk_home = "/usr"
+zk_home = "/usr/lib/zookeeper"
 zk_bin = "/usr/lib/zookeeper/bin"
 zk_cli_shell = "/usr/lib/zookeeper/bin/zkCli.sh"
 config_dir = "/etc/zookeeper/conf"
