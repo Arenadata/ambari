@@ -45,7 +45,7 @@ def setup_ranger_plugin(component_select_name, service_name, previous_jdbc_jar,
                         cache_service_list, plugin_audit_properties, plugin_audit_attributes,
                         plugin_security_properties, plugin_security_attributes,
                         plugin_policymgr_ssl_properties, plugin_policymgr_ssl_attributes,
-                        component_list, audit_db_is_enabled, credential_file, 
+                        component_list, audit_db_is_enabled, credential_file,
                         xa_audit_db_password, ssl_truststore_password,
                         ssl_keystore_password, api_version=None, stack_version_override = None, skip_if_rangeradmin_down = True,
                         is_security_enabled = False, is_stack_supports_ranger_kerberos = False,
@@ -69,7 +69,7 @@ def setup_ranger_plugin(component_select_name, service_name, previous_jdbc_jar,
 
   if policymgr_mgr_url.endswith('/'):
     policymgr_mgr_url = policymgr_mgr_url.rstrip('/')
-  
+
   stack_version = stack_version_override
 
   component_conf_dir = conf_dict
@@ -108,7 +108,7 @@ def setup_ranger_plugin(component_select_name, service_name, previous_jdbc_jar,
                                               policy_user)
 
     current_datetime = datetime.now()
-    
+
     File(format('{component_conf_dir}/ranger-security.xml'),
       owner = component_user,
       group = component_group,
@@ -171,7 +171,7 @@ def setup_ranger_plugin(component_select_name, service_name, previous_jdbc_jar,
         configuration_attributes=plugin_policymgr_ssl_attributes,
         owner = component_user,
         group = component_group,
-        mode=0744) 
+        mode=0744)
     else:
       XmlConfig("ranger-policymgr-ssl.xml",
         conf_dir=component_conf_dir,
@@ -179,7 +179,7 @@ def setup_ranger_plugin(component_select_name, service_name, previous_jdbc_jar,
         configuration_attributes=plugin_policymgr_ssl_attributes,
         owner = component_user,
         group = component_group,
-        mode=0744) 
+        mode=0744)
 
     # creating symblink should be done by rpm package
     setup_ranger_plugin_jar_symblink(stack_version, service_name, component_list)
@@ -190,8 +190,8 @@ def setup_ranger_plugin(component_select_name, service_name, previous_jdbc_jar,
 
   else:
     File(format('{component_conf_dir}/ranger-security.xml'),
-      action="delete"      
-    )    
+      action="delete"
+    )
 
 def setup_ranger_plugin_jar_symblink(stack_version, service_name, component_list):
 
@@ -202,17 +202,20 @@ def setup_ranger_plugin_jar_symblink(stack_version, service_name, component_list
   jar_files = os.listdir(format('{stack_root}/ranger-{service_name}-plugin/lib'))
   for jar_file in jar_files:
     for component in component_list:
-      if component != "kafka":
-        Execute(('ln','-sf',format('{stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),format('{stack_root}/{component}/lib/{jar_file}')),
+      if component == "kafka":
+        Execute(('ln','-sf',format('{stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),format('{stack_root}/{component}/libs/{jar_file}')),
         not_if=format('ls {stack_root}/lib/{jar_file}'),
         only_if=format('ls {stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),
+        sudo=True)
+      elif component == "atlas":
+        Execute(('ln','-sf',format('{stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),format('{stack_root}/{component}/server/webapp/atlas/WEB-INF/lib/{jar_file}')),
         sudo=True)
       else:
         Execute(('ln','-sf',format('{stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),format('{stack_root}/{component}/libs/{jar_file}')),
         not_if=format('ls {stack_root}/lib/{jar_file}'),
         only_if=format('ls {stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),
         sudo=True)
- 
+
 def setup_ranger_plugin_keystore(service_name, audit_db_is_enabled, stack_version, credential_file, xa_audit_db_password,
                                 ssl_truststore_password, ssl_keystore_password, component_user, component_group, java_home, cred_lib_path_override = None, cred_setup_prefix_override = None):
 
