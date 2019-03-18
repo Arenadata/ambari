@@ -211,7 +211,7 @@ def setup_ranger_plugin_jar_symblink(stack_version, service_name, component_list
         Execute(('ln','-sf',format('{stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),format('{stack_root}/{component}/server/webapp/atlas/WEB-INF/lib/{jar_file}')),
         sudo=True)
       else:
-        Execute(('ln','-sf',format('{stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),format('{stack_root}/{component}/libs/{jar_file}')),
+        Execute(('ln','-sf',format('{stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),format('{stack_root}/{component}/lib/{jar_file}')),
         not_if=format('ls {stack_root}/lib/{jar_file}'),
         only_if=format('ls {stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),
         sudo=True)
