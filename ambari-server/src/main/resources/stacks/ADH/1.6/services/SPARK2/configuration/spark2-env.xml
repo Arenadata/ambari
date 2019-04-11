@@ -129,6 +129,9 @@ export HADOOP_CONF_DIR=${HADOOP_CONF_DIR:-{{hadoop_conf_dir}}}
 # The java implementation to use.
 export JAVA_HOME={{java_home}}
 
+export SPARK_MASTER_WEBUI_PORT=5050
+export SPARK_WORKER_WEBUI_PORT=4050
+
 </value>
     <value-attributes>
       <type>content</type>
