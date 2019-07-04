@@ -36,11 +36,6 @@ class SparkClient(Script):
     self.install_packages(env)
     self.configure(env)
     Execute('ln -sf /usr/lib/hadoop-hdfs/hadoop-hdfs-client.jar  /usr/lib/spark/jars/hadoop-hdfs-client.jar')
-    Execute('ln -sf /usr/lib/hadoop-yarn/lib/jersey-client-1.9.jar  /usr/lib/spark/jars/jersey-client.jar')
-    Execute('ln -sf /usr/lib/hadoop-yarn/lib/jersey-server-1.9.jar  /usr/lib/spark/jars/jersey-server.jar')
-    Execute('ln -sf /usr/lib/hadoop-yarn/lib/jersey-core-1.9.jar  /usr/lib/spark/jars/jersey-core.jar')
-    Execute('ln -sf /usr/lib/hadoop-yarn/lib/jersey-guice-1.9.jar  /usr/lib/spark/jars/jersey-guice.jar')
-    Execute('ln -sf /usr/lib/hadoop-yarn/lib/jersey-json-1.9.jar  /usr/lib/spark/jars/jersey-json.jar')
 
   def configure(self, env, upgrade_type=None, config_dir=None):
     import params
