@@ -21,6 +21,7 @@ import os
 
 from resource_management.core.logger import Logger
 from resource_management.core.resources.system import Execute
+from resource_management.core.resources.system import File
 from resource_management.core import shell
 from resource_management.core.shell import as_user
 from resource_management.core.exceptions import Fail
@@ -35,6 +36,8 @@ from namenode_ha_state import NamenodeHAState
 safemode_to_instruction = {SafeMode.ON: "enter",
                            SafeMode.OFF: "leave"}
 
+NAMENODE_UPGRADE_IN_PROGRESS_MARKER_FILE = "namenode-upgrade-in-progress"
+
 def prepare_upgrade_check_for_previous_dir():
   """
   During a NonRolling (aka Express Upgrade), preparing the NameNode requires backing up some data.
@@ -44,7 +47,7 @@ def prepare_upgrade_check_for_previous_dir():
 
   if params.dfs_ha_enabled:
     namenode_ha = NamenodeHAState()
-    if namenode_ha.is_active(params.hostname):
+    if namenode_ha.is_active(params.hostname) or namenode_ha.is_active(params.public_hostname):
       Logger.info("NameNode High Availability is enabled and this is the Active NameNode.")
 
       problematic_previous_namenode_dirs = set()
@@ -111,7 +114,7 @@ def prepare_upgrade_backup_namenode_dir():
   i = 0
   failed_paths = []
   nn_name_dirs = params.dfs_name_dir.split(',')
-  backup_destination_root_dir = "/tmp/upgrades/{0}".format(params.stack_version_unformatted)
+  backup_destination_root_dir = "{0}/{1}".format(params.namenode_backup_dir, params.stack_version_unformatted)
   if len(nn_name_dirs) > 0:
     Logger.info("Backup the NameNode name directory's CURRENT folder.")
   for nn_dir in nn_name_dirs:
@@ -269,3 +272,51 @@ def finalize_upgrade(upgrade_type, hdfs_binary):
   Execute(query_cmd,
           user=params.hdfs_user,
           logoutput=True)
+
+  # upgrade is finalized; remove the upgrade marker
+  delete_upgrade_marker()
+
+
+def get_upgrade_in_progress_marker():
+  """
+  Gets the full path of the file which indicates that NameNode has begun its stack upgrade.
+  :return:
+  """
+  from resource_management.libraries.script.script import Script
+  return os.path.join(Script.get_tmp_dir(), NAMENODE_UPGRADE_IN_PROGRESS_MARKER_FILE)
+
+
+def create_upgrade_marker():
+  """
+  Creates the marker file indicating that NameNode has begun participating in a stack upgrade.
+  If the file already exists, nothing will be done. This will silently log exceptions on failure.
+  :return:
+  """
+  # create the marker file which indicates
+  try:
+    namenode_upgrade_in_progress_marker = get_upgrade_in_progress_marker()
+    if not os.path.isfile(namenode_upgrade_in_progress_marker):
+      File(namenode_upgrade_in_progress_marker)
+  except:
+    Logger.warning("Unable to create NameNode upgrade marker file {0}".format(namenode_upgrade_in_progress_marker))
+
+
+def delete_upgrade_marker():
+  """
+  Removes the marker file indicating that NameNode has begun participating in a stack upgrade.
+  If the file does not exist, then nothing will be done.
+  Failure to remove this file could cause problems with restarts in the future. That's why
+  checking to see if there is a suspended upgrade is also advised. This function will raise
+  an exception if the file can't be removed.
+  :return:
+  """
+  # create the marker file which indicates
+  try:
+    namenode_upgrade_in_progress_marker = get_upgrade_in_progress_marker()
+    if os.path.isfile(namenode_upgrade_in_progress_marker):
+      File(namenode_upgrade_in_progress_marker, action='delete')
+  except:
+    error_message = "Unable to remove NameNode upgrade marker file {0}".format(namenode_upgrade_in_progress_marker)
+    Logger.error(error_message)
+    raise Fail(error_message)
+
