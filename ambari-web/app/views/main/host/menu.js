@@ -45,7 +45,6 @@ App.MainHostMenuView = Em.CollectionView.extend({
         badgeClasses: 'label',
         id: 'host-details-summary-alerts'
       }),
-      /*
       Em.Object.create({
         name: 'versions',
         label: Em.I18n.t('hosts.host.menu.stackVersions'),
@@ -53,7 +52,6 @@ App.MainHostMenuView = Em.CollectionView.extend({
         hidden: !App.get('stackVersionsAvailable'),
         id: 'host-details-summary-version'
       }),
-      */
       Em.Object.create({
         name: 'logs',
         label: Em.I18n.t('hosts.host.menu.logs'),
