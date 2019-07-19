@@ -201,10 +201,10 @@ class NameNodeDefault(NameNode):
 
     # When downgrading an Express Upgrade, the first thing we do is to revert the symlinks.
     # Therefore, we cannot call this code in that scenario.
-    if upgrade_type != constants.UPGRADE_TYPE_NON_ROLLING or params.upgrade_direction != Direction.DOWNGRADE:
-      conf_select.select(params.stack_name, "hadoop", params.version)
+    #if upgrade_type != constants.UPGRADE_TYPE_NON_ROLLING or params.upgrade_direction != Direction.DOWNGRADE:
+    #  conf_select.select(params.stack_name, "hadoop", params.version)
 
-    stack_select.select("hadoop-hdfs-namenode", params.version)
+    #stack_select.select("hadoop-hdfs-namenode", params.version)
 
   def post_upgrade_restart(self, env, upgrade_type=None):
     Logger.info("Executing Stack Upgrade post-restart")
@@ -304,11 +304,11 @@ class NameNodeDefault(NameNode):
       File(ccache_file_path,
            action = "delete",
       )
-      
+
   def get_log_folder(self):
     import params
     return params.hdfs_log_dir
-  
+
   def get_user(self):
     import params
     return params.hdfs_user
@@ -369,4 +369,3 @@ def _print(line):
 
 if __name__ == "__main__":
   NameNode().execute()
-

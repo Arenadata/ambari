@@ -105,7 +105,7 @@
 
     <service name="KAFKA">
       <component name="KAFKA_BROKER">
-        <changes>          
+        <changes>
           <definition xsi:type="configure" id="adh_1_5_fix_kafka_protocol">
             <type>kafka-broker</type>
             <set key="security.inter.broker.protocol" value="PLAINTEXTSASL"/>
@@ -186,7 +186,6 @@
         <changes>
           <definition xsi:type="configure" id="adh_1_4_mapreduce_application_framework_patch" summary="Update MapReduce2 configurations">
             <type>mapred-site</type>
-            <set key="mapreduce.application.framework.path" value="/usr/lib/hadoop-mapreduce/mapreduce.tar.gz#mr-framework"/>
             <set key="yarn.app.mapreduce.am.env" value="LD_LIBRARY_PATH=/usr/lib/hadoop/lib/native:/usr/lib/hadoop/lib/native/Linux-{{architecture}}-64"/>
           </definition>
         </changes>

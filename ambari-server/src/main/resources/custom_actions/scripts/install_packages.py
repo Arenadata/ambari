@@ -132,9 +132,6 @@ class InstallPackages(Script):
     if num_errors > 0:
       raise Fail("Failed to distribute repositories/install packages")
 
-    # Initial list of versions, used to compute the new version installed
-    self.old_versions = get_stack_versions(self.stack_root_folder)
-
     try:
       is_package_install_successful = False
       ret_code = self.install_packages(package_list)
@@ -267,9 +264,6 @@ class InstallPackages(Script):
     Logger.info("Attempting to determine actual version with build number.")
     Logger.info("Old versions: {0}".format(self.old_versions))
 
-    new_versions = get_stack_versions(self.stack_root_folder)
-    Logger.info("New versions: {0}".format(new_versions))
-
     deltas = set(new_versions) - set(self.old_versions)
     Logger.info("Deltas: {0}".format(deltas))
 
@@ -308,9 +302,6 @@ class InstallPackages(Script):
     """
     Logger.info("Installation of packages failed. Checking if installation was partially complete")
     Logger.info("Old versions: {0}".format(self.old_versions))
-
-    new_versions = get_stack_versions(self.stack_root_folder)
-    Logger.info("New versions: {0}".format(new_versions))
 
     deltas = set(new_versions) - set(self.old_versions)
     Logger.info("Deltas: {0}".format(deltas))
@@ -383,7 +374,6 @@ class InstallPackages(Script):
     # Install packages
     packages_were_checked = False
     packages_installed_before = []
-    stack_selector_package = stack_tools.get_stack_tool_package(stack_tools.STACK_SELECTOR_NAME)
 
     try:
       # install the stack-selector; we need to supply the action as "upgrade" here since the normal
@@ -400,12 +390,6 @@ class InstallPackages(Script):
       for repo_id in repository_ids:
         if repo_id in self.repo_files:
           repos_to_use[repo_id] = self.repo_files[repo_id]
-
-      Package(stack_selector_package,
-        action="upgrade",
-        use_repos=repos_to_use,
-        retry_on_repo_unavailability=agent_stack_retry_on_unavailability,
-        retry_count=agent_stack_retry_count)
 
       packages_installed_before = self.pkg_provider.all_installed_packages()
       packages_installed_before = [package[0] for package in packages_installed_before]
@@ -452,16 +436,8 @@ class InstallPackages(Script):
       Logger.logger.error("Manually verify and fix package dependencies and then re-run install_packages")
       Logger.logger.error("*******************************************************************************")
 
-    # Compute the actual version in order to save it in structured out
-    try:
-      if ret_code == 0:
-         self.compute_actual_version()
-      else:
-        self.check_partial_install()
-    except Fail as err:
-      ret_code = 1
-      Logger.logger.exception("Failure while computing actual version. Error: {0}".format(str(err)))
-    return ret_code
+    ret_code = 1
+
 
   def abort_handler(self, signum, frame):
     Logger.error("Caught signal {0}, will handle it gracefully. Compute the actual version if possible before exiting.".format(signum))
