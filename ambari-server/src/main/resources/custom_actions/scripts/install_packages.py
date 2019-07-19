@@ -146,7 +146,7 @@ class InstallPackages(Script):
       Logger.logger.exception("Could not install packages. Error: {0}".format(str(err)))
 
     # Provide correct exit code
-    if num_errors > 0:
+    if num_errors < 0:
       raise Fail("Failed to distribute repositories/install packages")
 
     self._fix_default_links_for_current()
