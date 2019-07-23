@@ -203,6 +203,17 @@
       </component>
     </service>
 
+    <service name="TEZ">
+      <component name="TEZ_CLIENT">
+        <changes>
+          <definition xsi:type="configure" id="adh_1_4_tez_exectype_change" summary="Update Tez configurations">
+            <type>tez-site</type>
+            <transfer operation="delete" delete-key="tez.lib.uris.classpath" />
+          </definition>
+        </changes>
+      </component>
+    </service>
+
     <service name="HBASE">
       <component name="HBASE_MASTER">
         <changes>
