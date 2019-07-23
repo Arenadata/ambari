@@ -110,8 +110,7 @@ class HiveMetastoreDefault(HiveMetastore):
       conf_select.select(params.stack_name, "hive", params.version)
       stack_select.select("hive-metastore", params.version)
 
-    if is_upgrade and params.stack_version_formatted_major and \
-            check_stack_feature(StackFeature.HIVE_METASTORE_UPGRADE_SCHEMA, params.stack_version_formatted_major):
+    if is_upgrade:
       self.upgrade_schema(env)
 
 
@@ -197,11 +196,11 @@ class HiveMetastoreDefault(HiveMetastore):
         params.hive_metastore_principal,
         status_params.hostname,
         status_params.tmp_dir)
-      
+
     # ensure that the JDBC drive is present for the schema tool; if it's not
     # present, then download it first
     if params.hive_jdbc_driver in params.hive_jdbc_drivers_list:
-      target_directory = format("{stack_root}/{version}/hive/lib")
+      target_directory = format("{stack_root}/hive/lib")
 
       # download it if it does not exist
       if not os.path.exists(params.source_jdbc_file):
@@ -246,7 +245,7 @@ class HiveMetastoreDefault(HiveMetastore):
 
     command = format("{binary} -dbType {hive_metastore_db_type} -upgradeSchema")
     Execute(command, user=params.hive_user, tries=1, environment=env_dict, logoutput=True)
-    
+
   def get_log_folder(self):
     import params
     return params.hive_log_dir
@@ -258,4 +257,3 @@ class HiveMetastoreDefault(HiveMetastore):
 
 if __name__ == "__main__":
   HiveMetastore().execute()
-
