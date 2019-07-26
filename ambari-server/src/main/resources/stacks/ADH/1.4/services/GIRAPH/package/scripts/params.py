@@ -26,9 +26,11 @@ from resource_management.libraries.functions.default import default
 config = Script.get_config()
 
 # hadoop default parameters
+hadoop_home = '/usr/lib/hadoop'
 hadoop_conf_dir = conf_select.get_hadoop_conf_dir()
 hadoop_bin_dir = stack_select.get_hadoop_dir("bin")
-
+java64_home = config['hostLevelParams']['java_home']
+smokeuser = config['configurations']['cluster-env']['smokeuser']
 hdfs_user = config['configurations']['hadoop-env']['hdfs_user']
 hdfs_principal_name = config['configurations']['hadoop-env']['hdfs_principal_name']
 hdfs_user_keytab = config['configurations']['hadoop-env']['hdfs_user_keytab']
