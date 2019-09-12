@@ -27,7 +27,6 @@ from resource_management.libraries.functions import check_process_status, format
 # Note: Phoenix Query Server is only applicable to phoenix version stacks and above.
 def phoenix_service(action = 'start'): # 'start', 'stop', 'status'
     # Note: params/status_params should already be imported before calling phoenix_service()
-    Execute('echo FUCK')
     pid_file = format("{pid_dir}/phoenix-hbase-queryserver.pid")
     no_op_test = format("ls {pid_file} >/dev/null 2>&1 && ps -p `cat {pid_file}` >/dev/null 2>&1")
     if action == "status":
@@ -39,7 +38,7 @@ def phoenix_service(action = 'start'): # 'start', 'stop', 'status'
         Execute(daemon_cmd,
                 user=format("{hbase_user}"),
                 environment=env)
-  
+
       elif action == 'stop':
         Execute(daemon_cmd,
                 user=format("{hbase_user}"),
