@@ -73,6 +73,7 @@ oozie_examples_regex = "/usr/share/doc/oozie-*"
 oozie_examples_suse_regex = "/usr/share/doc/packages/oozie*"
 
 execute_path = oozie_bin_dir + os.pathsep + hadoop_bin_dir
+oozie_setup_sh_current = oozie_setup_sh
 
 oozie_user = config['configurations']['oozie-env']['oozie_user']
 smokeuser = config['configurations']['cluster-env']['smokeuser']
