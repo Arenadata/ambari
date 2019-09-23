@@ -42,6 +42,7 @@ from resource_management.libraries.resources.repository import Repository
 from resource_management.libraries.script.script import Script
 from resource_management.core import sudo
 
+num_errors = 0
 
 class InstallPackages(Script):
   """
@@ -61,7 +62,8 @@ class InstallPackages(Script):
 
 
   def actionexecute(self, env):
-    num_errors = 0
+    global num_errors
+#    num_errors = 0
 
     # Parse parameters
     config = Script.get_config()
@@ -135,7 +137,7 @@ class InstallPackages(Script):
     try:
       is_package_install_successful = False
       ret_code = self.install_packages(package_list)
-      if ret_code == 0:
+      if ret_code == 0 or ret_code == None:
         self.structured_output['package_installation_result'] = 'SUCCESS'
         self.put_structured_out(self.structured_output)
         is_package_install_successful = True
@@ -146,7 +148,7 @@ class InstallPackages(Script):
       Logger.logger.exception("Could not install packages. Error: {0}".format(str(err)))
 
     # Provide correct exit code
-    if num_errors < 0:
+    if num_errors > 0:
       raise Fail("Failed to distribute repositories/install packages")
 
     self._fix_default_links_for_current()
@@ -365,6 +367,7 @@ class InstallPackages(Script):
     :param package_list: List of package names to install
     :return: Returns 0 if no errors were found, and 1 otherwise.
     """
+    global num_errors
     ret_code = 0
 
     config = self.get_config()
@@ -400,12 +403,18 @@ class InstallPackages(Script):
       except Exception:
         available_packages_in_repos = []
       for package in filtered_package_list:
+       try: 
         name = self.get_package_from_available(package['name'], available_packages_in_repos)
         Package(name,
           action="upgrade", # this enables upgrading non-versioned packages, despite the fact they exist. Needed by 'mahout' which is non-version but have to be updated
           retry_on_repo_unavailability=agent_stack_retry_on_unavailability,
           retry_count=agent_stack_retry_count
         )
+        ret_code == 0
+       except:
+        Logger.info("Installation Error. Please fix conflict manually.")
+        num_errors += 1
+
     except Exception as err:
       ret_code = 1
       Logger.logger.exception("Package Manager failed to install packages. Error: {0}".format(str(err)))
@@ -435,8 +444,6 @@ class InstallPackages(Script):
       Logger.logger.error("*******************************************************************************")
       Logger.logger.error("Manually verify and fix package dependencies and then re-run install_packages")
       Logger.logger.error("*******************************************************************************")
-
-    ret_code = 1
 
 
   def abort_handler(self, signum, frame):
