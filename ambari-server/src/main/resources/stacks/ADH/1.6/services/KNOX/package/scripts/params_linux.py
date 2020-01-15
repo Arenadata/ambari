@@ -45,7 +45,7 @@ from resource_management.libraries.functions.setup_ranger_plugin_xml import get_
 
 # server configurations
 config = Script.get_config()
-stack_root = '/usr/lib' 
+stack_root = '/usr/lib'
 
 tmp_dir = Script.get_tmp_dir()
 stack_name = status_params.stack_name
@@ -56,9 +56,9 @@ version = default("/commandParams/version", None)
 # get the correct version to use for checking stack features
 version_for_stack_feature_checks = get_stack_feature_version(config)
 
-stack_supports_ranger_kerberos = True 
+stack_supports_ranger_kerberos = True
 stack_supports_ranger_audit_db = False
-stack_supports_core_site_for_ranger_plugin = False 
+stack_supports_core_site_for_ranger_plugin = False
 
 # This is the version whose state is CURRENT. During an RU, this is the source version.
 # DO NOT format it since we need the build number too.
@@ -75,7 +75,7 @@ else:
 
 # server configurations
 # Default value used in HDP 2.3.0.0 and earlier.
-knox_data_dir = '/var/lib/knox/data'
+knox_data_dir = '/usr/lib/knox/data'
 
 # Important, it has to be strictly greater than 2.3.0.0!!!
 
@@ -187,7 +187,7 @@ yarn_scheme = 'http'
 if yarn_http_policy !=  None :
    yarn_https_on = ( yarn_http_policy.upper() == 'HTTPS_ONLY')
    yarn_scheme = 'http' if not yarn_https_on else 'https'
-   
+
 rm_hosts = default("/clusterHostInfo/rm_host", None)
 if type(rm_hosts) is list:
   rm_host = rm_hosts[0]
@@ -286,12 +286,12 @@ solr_port=default("/configuration/solr/solr-env/solr_port","8983")
 
 #
 # Spark
-# 
+#
 spark_scheme = 'http'
 spark_historyserver_hosts = default("/clusterHostInfo/spark_jobhistoryserver_hosts", None)
 if type(spark_historyserver_hosts) is list:
   spark_historyserver_host = spark_historyserver_hosts[0]
-else: 
+else:
   spark_historyserver_host = spark_historyserver_hosts
 spark_historyserver_ui_port = default("/configurations/spark-defaults/spark.history.ui.port", "18080")
 
@@ -300,7 +300,7 @@ spark_historyserver_ui_port = default("/configurations/spark-defaults/spark.hist
 # JobHistory mapreduce
 #
 mr_scheme='http'
-mr_historyserver_address = default("/configurations/mapred-site/mapreduce.jobhistory.webapp.address", None) 
+mr_historyserver_address = default("/configurations/mapred-site/mapreduce.jobhistory.webapp.address", None)
 
 #
 # Yarn nodemanager
