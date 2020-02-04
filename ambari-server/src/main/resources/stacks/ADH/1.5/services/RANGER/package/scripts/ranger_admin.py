@@ -181,14 +181,14 @@ class RangerAdmin(Script):
     import params
     env.set_params(params)
 
-    upgrade_stack = stack_select._get_upgrade_stack()
-    if upgrade_stack is None:
-      raise Fail('Unable to determine the stack and stack version')
+#    upgrade_stack = stack_select._get_upgrade_stack()
+#    if upgrade_stack is None:
+#      raise Fail('Unable to determine the stack and stack version')
 
-    stack_version = upgrade_stack[1]
+    stack_version = None
 
     if params.xml_configurations_supported and params.upgrade_direction == Direction.UPGRADE:
-      Logger.info(format('Setting Ranger database schema, using version {stack_version}'))
+      Logger.info(format('Setting Ranger database schema'))
 
       from setup_ranger_xml import setup_ranger_db
       setup_ranger_db(stack_version=stack_version)
@@ -197,14 +197,14 @@ class RangerAdmin(Script):
     import params
     env.set_params(params)
 
-    upgrade_stack = stack_select._get_upgrade_stack()
-    if upgrade_stack is None:
-      raise Fail('Unable to determine the stack and stack version')
+#    upgrade_stack = stack_select._get_upgrade_stack()
+#    if upgrade_stack is None:
+#      raise Fail('Unable to determine the stack and stack version')
 
-    stack_version = upgrade_stack[1]
+    stack_version = None
 
     if params.xml_configurations_supported and params.upgrade_direction == Direction.UPGRADE:
-      Logger.info(format('Applying Ranger java patches, using version {stack_version}'))
+      Logger.info(format('Applying Ranger java patches'))
 
       from setup_ranger_xml import setup_java_patch
       setup_java_patch(stack_version=stack_version)
@@ -213,15 +213,15 @@ class RangerAdmin(Script):
     import params
     env.set_params(params)
 
-    upgrade_stack = stack_select._get_upgrade_stack()
-    if upgrade_stack is None:
-      raise Fail('Unable to determine the stack and stack version')
+#    upgrade_stack = stack_select._get_upgrade_stack()
+#    if upgrade_stack is None:
+#      raise Fail('Unable to determine the stack and stack version')
 
-    stack_name = upgrade_stack[0]
-    stack_version = upgrade_stack[1]
+#    stack_name = upgrade_stack[0]
+#    stack_version = upgrade_stack[1]
 
-    stack_select.select("ranger-admin", stack_version)
-    conf_select.select(stack_name, "ranger-admin", stack_version)
+#    stack_select.select("ranger-admin", stack_version)
+#    conf_select.select(stack_name, "ranger-admin", stack_version)
 
   def get_log_folder(self):
     import params

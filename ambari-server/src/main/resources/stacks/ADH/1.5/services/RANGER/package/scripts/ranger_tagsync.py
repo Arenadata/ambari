@@ -84,7 +84,7 @@ class RangerTagsync(Script):
 
     if params.stack_supports_ranger_tagsync:
       Logger.info("Executing Ranger Tagsync Stack Upgrade pre-restart")
-      stack_select.select_packages(params.version)
+ #     stack_select.select_packages(params.version)
 
   def get_log_folder(self):
     import params
@@ -99,7 +99,7 @@ class RangerTagsync(Script):
     import params
     env.set_params(params)
 
-    orchestration = stack_select.PACKAGE_SCOPE_STANDARD
+#    orchestration = stack_select.PACKAGE_SCOPE_STANDARD
     summary = upgrade_summary.get_upgrade_summary()
 
     if summary is not None:
@@ -107,17 +107,17 @@ class RangerTagsync(Script):
       if orchestration is None:
         raise Fail("The upgrade summary does not contain an orchestration type")
 
-      if orchestration.upper() in stack_select._PARTIAL_ORCHESTRATION_SCOPES:
-        orchestration = stack_select.PACKAGE_SCOPE_PATCH
+#      if orchestration.upper() in stack_select._PARTIAL_ORCHESTRATION_SCOPES:
+#        orchestration = stack_select.PACKAGE_SCOPE_PATCH
 
-    stack_select_packages = stack_select.get_packages(orchestration, service_name = "RANGER", component_name = "RANGER_TAGSYNC")
-    if stack_select_packages is None:
-      raise Fail("Unable to get packages for stack-select")
+#    stack_select_packages = stack_select.get_packages(orchestration, service_name = "RANGER", component_name = "RANGER_TAGSYNC")
+#    if stack_select_packages is None:
+#      raise Fail("Unable to get packages for stack-select")
 
-    Logger.info("RANGER_TAGSYNC component will be stack-selected to version {0} using a {1} orchestration".format(params.version, orchestration.upper()))
+#    Logger.info("RANGER_TAGSYNC component will be stack-selected to version {0} using a {1} orchestration".format(params.version, orchestration.upper()))
 
-    for stack_select_package_name in stack_select_packages:
-      stack_select.select(stack_select_package_name, params.version)
+#    for stack_select_package_name in stack_select_packages:
+#      stack_select.select(stack_select_package_name, params.version)
 
     if params.stack_supports_ranger_tagsync_ssl_xml_support:
       Logger.info("Upgrading Tagsync, stack support Atlas user for Tagsync, creating keystore for same.")

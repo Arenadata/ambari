@@ -125,8 +125,6 @@ class KnoxGatewayDefault(KnoxGateway):
       absolute_backup_dir = upgrade.backup_data()
       Logger.info("Knox data was successfully backed up to {0}".format(absolute_backup_dir))
 
-    stack_select.select_packages(params.version)
-
     # seed the new Knox data directory with the keystores of yesteryear
     if params.upgrade_direction == Direction.UPGRADE:
       upgrade.seed_current_data_directory()

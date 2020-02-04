@@ -93,7 +93,7 @@ class KmsServer(Script):
     import params
     env.set_params(params)
 
-    stack_select.select_packages(params.version)
+#    stack_select.select_packages(params.version)
     kms(upgrade_type=upgrade_type)
     setup_java_patch()
 
@@ -101,12 +101,12 @@ class KmsServer(Script):
     import params
     env.set_params(params)
 
-    upgrade_stack = stack_select._get_upgrade_stack()
-    if upgrade_stack is None:
-      raise Fail('Unable to determine the stack and stack version')
+#    upgrade_stack = stack_select._get_upgrade_stack()
+#    if upgrade_stack is None:
+#      raise Fail('Unable to determine the stack and stack version')
 
-    stack_version = upgrade_stack[1]
-    Logger.info(format('Setting Ranger KMS database schema, using version {stack_version}'))
+    stack_version = None
+    Logger.info(format('Setting Ranger KMS database schema'))
     setup_kms_db(stack_version=stack_version)
     
   def get_log_folder(self):

@@ -33,7 +33,7 @@ from resource_management.libraries.script.script import Script
 
 BACKUP_TEMP_DIR = "knox-upgrade-backup"
 BACKUP_DATA_ARCHIVE = "knox-data-backup.tar"
-STACK_ROOT_DEFAULT = Script.get_stack_root()
+STACK_ROOT_DEFAULT = "/usr/lib"
 
 def backup_data():
   """
@@ -67,11 +67,9 @@ def backup_data():
 
 def seed_current_data_directory():
   """
-  HDP stack example:
+  ADH stack example:
 
   Knox uses "versioned" data directories in some stacks:
-  /usr/hdp/2.2.0.0-1234/knox/data -> /var/lib/knox/data
-  /usr/hdp/2.3.0.0-4567/knox/data -> /var/lib/knox/data-2.3.0.0-4567
 
   If the stack being upgraded to supports versioned data directories for Knox, then we should
   seed the data from the prior version. This is mainly because Knox keeps things like keystores
@@ -79,22 +77,15 @@ def seed_current_data_directory():
   versions. This side-effect behavior causes loss of service in clusters where Knox is using
   custom keystores.
 
-  cp -R -p -f /usr/hdp/<old>/knox-server/data/. /usr/hdp/current/knox-server/data
+  cp -R -p -f /usr/lib/<old>/knox-server/data/. /usr/lib/knox/data
   :return:
   """
   import params
 
-  if params.version is None or params.upgrade_from_version is None:
-    raise Fail("The source and target versions are required")
-
-  if check_stack_feature(StackFeature.KNOX_VERSIONED_DATA_DIR, params.version):
+  if check_stack_feature(StackFeature.KNOX_VERSIONED_DATA_DIR, None):
     Logger.info("Seeding Knox data from prior version...")
-
-    # <stack-root>/2.3.0.0-1234/knox/data/.
     source_data_dir = os.path.join(params.source_stack_root, params.upgrade_from_version, "knox", "data", ".")
-
-    # <stack-root>/current/knox-server/data
-    target_data_dir = os.path.join(params.stack_root, "current", "knox-server", "data")
+    target_data_dir = os.path.join(params.stack_root, "knox", "data")
 
     # recursive copy, overwriting, and preserving attributes
     Execute(("cp", "-R", "-p", "-f", source_data_dir, target_data_dir), sudo = True)
@@ -110,7 +101,7 @@ def _get_directory_mappings_during_upgrade():
 
   # the data directory is always a symlink to the "correct" data directory in /var/lib/knox
   # such as /var/lib/knox/data or /var/lib/knox/data-2.4.0.0-1234
-  knox_data_dir = STACK_ROOT_DEFAULT + '/current/knox-server/data'
+  knox_data_dir = STACK_ROOT_DEFAULT + '/knox/data'
 
   directories = { knox_data_dir: BACKUP_DATA_ARCHIVE }
 
