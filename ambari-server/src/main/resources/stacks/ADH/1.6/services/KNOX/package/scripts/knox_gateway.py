@@ -66,11 +66,27 @@ class KnoxGateway(Script):
     env.set_params(params)
     knox()
     ldap()
-    Execute ('ln -sf /usr/lib/knox/logs/gateway-audit.log /var/log/gateway-audit.log')
-    Execute ('ln -sf /usr/lib/knox/logs/gateway.err /var/log/gateway.err')
-    Execute ('ln -sf /usr/lib/knox/logs/gateway.log /var/log/gateway.log')
-    Execute ('ln -sf /usr/lib/knox/logs/knoxcli.log /var/log/knoxcli.log')
-    Execute ('ln -sf /usr/lib/knox/pids/gateway.pid /var/run/knox/gateway.pid')
+    Execute(('ln','-sf', format('/usr/lib/knox/logs/gateway-audit.log'),'/var/log/gateway-audit.log'),
+      not_if=format("ls /var/log/gateway-audit.log"),
+      only_if=format("ls /usr/lib/knox/logs/gateway-audit.log"),
+      sudo=True)
+    Execute(('ln','-sf', format('/usr/lib/knox/logs/gateway.err'),'/var/log/gateway.err'),
+      not_if=format("ls /var/log/gateway.err"),
+      only_if=format("ls /usr/lib/knox/logs/gateway.err"),
+      sudo=True)
+    Execute(('ln','-sf', format('/usr/lib/knox/logs/gateway.log'),'/var/log/gateway.log'),
+      not_if=format("ls /var/log/gateway.log"),
+      only_if=format("ls /usr/lib/knox/logs/gateway.log"),
+      sudo=True)
+    Execute(('ln','-sf', format('/usr/lib/knox/logs/knoxcli.log'),'/var/log/knoxcli.log'),
+      not_if=format("ls /var/log/gateway.log"),
+      only_if=format("ls /var/log/knoxcli.log"),
+      sudo=True)
+    Execute(('ln','-sf', format('/usr/lib/knox/pids/gateway.pid'),'/var/run/knox/gateway.pid'),
+      not_if=format("ls /var/run/knox/gateway.pid"),
+      only_if=format("ls /usr/lib/knox/pids/gateway.pid"),
+      sudo=True)
+
 
   def configureldap(self, env):
     import params

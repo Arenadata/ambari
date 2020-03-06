@@ -59,7 +59,10 @@ class SliderClientLinux(SliderClient):
   def configure(self, env):
     import params
     env.set_params(params)
-    Execute('ln -sf /usr/lib/slider/bin/slider /usr/bin/slider')
+    Execute(('ln','-sf', format('/usr/lib/slider/bin/slider'),'/usr/bin/sliderd'),
+      not_if=format("ls /usr/bin/slider"),
+      only_if=format("ls /usr/lib/slider/bin/slider"),
+      sudo=True)
     slider()
 
 @OsFamilyImpl(os_family=OSConst.WINSRV_FAMILY)

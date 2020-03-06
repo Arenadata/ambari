@@ -78,7 +78,11 @@ class HiveServerInteractiveDefault(HiveServerInteractive):
     def configure(self, env):
       import params
       env.set_params(params)
-      Execute('ln -sf /usr/lib/hive/lib/hive-hcatalog-core-2.3.0.jar /usr/lib/hive/lib/hive-hcatalog-core.jar')
+      Execute(('ln','-sf', format('/usr/lib/hive/lib/hive-hcatalog-core-2.3.0.jar'),'/usr/lib/hive/lib/hive-hcatalog-core.jar'),
+        not_if=format("ls /usr/lib/hive/lib/hive-hcatalog-core.jar"),
+        only_if=format("ls /usr/lib/hive/lib/hive-hcatalog-core-2.3.0.jar"),
+        sudo=True)
+
       hive_interactive(name='hiveserver2')
 
     def pre_upgrade_restart(self, env, upgrade_type=None):
