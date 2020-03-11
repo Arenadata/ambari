@@ -72,7 +72,7 @@ class Master(Script):
     File(format("{conf_dir}/flink-conf.yaml"), content=properties_content, owner=params.flink_user)
     Execute(('ln','-sf', format('{flink_log_dir}'),format('{flink_install_dir}/log')),
       not_if=format("ls {flink_install_dir}"),
-      only_if=format("ls {flink_log_dir}""),
+      only_if=format("ls {flink_log_dir}"),
       sudo=True)
 
   def config_ssh(self, flink_user):

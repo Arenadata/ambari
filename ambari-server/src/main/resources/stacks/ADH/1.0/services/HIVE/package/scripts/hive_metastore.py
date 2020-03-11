@@ -210,7 +210,7 @@ class HiveMetastoreDefault(HiveMetastore):
       File(target_directory_and_filename, mode = 0644)
 
     # build the schema tool command
-    binary = format("/usr/hdp/{version}/hive/bin/schematool")
+    binary = format("/usr/lib/hive/bin/schematool")
 
     # the conf.server directory changed locations between HDP 2.2 and 2.3
     # since the configurations have not been written out yet during an upgrade
