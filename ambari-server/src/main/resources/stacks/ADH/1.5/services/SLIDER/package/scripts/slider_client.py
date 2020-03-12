@@ -59,7 +59,7 @@ class SliderClientLinux(SliderClient):
   def configure(self, env):
     import params
     env.set_params(params)
-    Execute(('ln','-sf', format('/usr/lib/slider/bin/slider'),'/usr/bin/sliderd'),
+    Execute(('ln','-sf', format('/usr/lib/slider/bin/slider'),'/usr/bin/slider'),
       not_if=format("ls /usr/bin/slider"),
       only_if=format("ls /usr/lib/slider/bin/slider"),
       sudo=True)
