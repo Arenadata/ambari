@@ -70,10 +70,7 @@ class Master(Script):
     #write out config
     properties_content=InlineTemplate(params.flink_yaml_content)
     File(format("{conf_dir}/flink-conf.yaml"), content=properties_content, owner=params.flink_user)
-    Execute(('ln','-sf', format('{flink_log_dir}'),format('{flink_install_dir}/log')),
-      not_if=format("ls {flink_install_dir}"),
-      only_if=format("ls {flink_log_dir}"),
-      sudo=True)
+    Execute(('ln','-sf', format('{flink_log_dir}'),format('{flink_install_dir}/log')),sudo=True)
 
   def config_ssh(self, flink_user):
     if not os.path.exists(format("{flink_home_dir}/.ssh/id_rsa")):
