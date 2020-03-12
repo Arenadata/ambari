@@ -55,6 +55,7 @@ class RangerTagsync(Script):
     import params
     env.set_params(params)
     ranger('ranger_tagsync', upgrade_type=upgrade_type)
+    Execute(('ln','-sf', format('/etc/ranger/tagsync/conf'),format('/usr/lib/ranger-tagsync/conf')),sudo=True)
 
   def start(self, env, upgrade_type=None):
     import params
@@ -89,7 +90,7 @@ class RangerTagsync(Script):
   def get_log_folder(self):
     import params
     return params.tagsync_log_dir
-  
+
   def get_user(self):
     import params
     return params.unix_user
