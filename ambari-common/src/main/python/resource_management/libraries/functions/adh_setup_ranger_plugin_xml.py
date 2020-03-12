@@ -207,7 +207,7 @@ def setup_ranger_plugin_jar_symblink(stack_version, service_name, component_list
         not_if=format('ls {stack_root}/lib/{jar_file}'),
         only_if=format('ls {stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),
         sudo=True)
-      elif component == "atlas":
+    elif component == "atlas" or component == "atlas-server":
         Execute(('ln','-sf',format('{stack_root}/ranger-{service_name}-plugin/lib/{jar_file}'),format('{stack_root}/{component}/server/webapp/atlas/WEB-INF/lib/{jar_file}')),
         sudo=True)
       else:
