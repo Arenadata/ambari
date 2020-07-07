@@ -26,7 +26,7 @@ angular.module('ambariAdminConsole')
 
     'common': {
       'ambari': 'Ambari',
-      'apacheAmbari': 'Apache Ambari',
+      'apacheAmbari': 'Arenadata Ambari',
       'about': 'About',
       'version': 'Version',
       'signOut': 'Sign out',
@@ -160,7 +160,7 @@ angular.module('ambariAdminConsole')
     },
 
     'main': {
-      'title': 'Welcome to Apache Ambari',
+      'title': 'Welcome to Arenadata Ambari',
       'noClusterDescription': 'Provision a cluster, manage who can access the cluster, and customize views for Ambari users.',
       'hasClusterDescription': 'Monitor your cluster resources, manage who can access the cluster, and customize views for Ambari users.',
       'autoLogOut': 'Automatic Logout',
