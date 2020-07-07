@@ -15,7 +15,7 @@ ADH 1.6.1 Release Notes
 - Apache MapReduce2	2.8.5
 - Apache Tez	0.9.1
 - Apache Hive	2.3.3
-- Apache HBase	1.3.2
+- Apache HBase	1.3.5
 - Apache Phoenix 4.14.0
 - Apache Pig	0.17.0
 - Apache Sqoop	1.4.7
