@@ -623,7 +623,7 @@ cite {
 }
 
 .text-success {
-  color: #468847;
+  color: #15A275;
 }
 
 h1,
@@ -1404,7 +1404,7 @@ input[type="checkbox"][readonly] {
 .control-group.success > label,
 .control-group.success .help-block,
 .control-group.success .help-inline {
-  color: #468847;
+  color: #15A275;
 }
 
 .control-group.success .checkbox,
@@ -1412,13 +1412,13 @@ input[type="checkbox"][readonly] {
 .control-group.success input,
 .control-group.success select,
 .control-group.success textarea {
-  color: #468847;
+  color: #15A275;
 }
 
 .control-group.success input,
 .control-group.success select,
 .control-group.success textarea {
-  border-color: #468847;
+  border-color: #15A275;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
      -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -1435,9 +1435,9 @@ input[type="checkbox"][readonly] {
 
 .control-group.success .input-prepend .add-on,
 .control-group.success .input-append .add-on {
-  color: #468847;
+  color: #15A275;
   background-color: #dff0d8;
-  border-color: #468847;
+  border-color: #15A275;
 }
 
 .control-group.info > label,
@@ -3726,7 +3726,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 .alert-success {
-  color: #468847;
+  color: #15A275;
   background-color: #dff0d8;
   border-color: #d6e9c6;
 }
@@ -5336,7 +5336,7 @@ a.badge:hover {
 
 .label-success,
 .badge-success {
-  background-color: #468847;
+  background-color: #15A275;
 }
 
 .label-success[href],

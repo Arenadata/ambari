@@ -167,12 +167,12 @@
 }
 
 .control-group.success .combobox-container .add-on {
-    color: #468847;
-    border-color: #468847;
+    color: #15A275;
+    border-color: #15A275;
 }
 
 .control-group.success .combobox-container .caret {
-    border-top-color: #468847;
+    border-top-color: #15A275;
 }
 
 .combobox-container button.add-on {
