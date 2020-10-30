@@ -482,8 +482,8 @@ if enable_ranger_knox:
     xa_audit_db_is_enabled = config['configurations']['ranger-knox-audit']['xasecure.audit.destination.db']
 
   xa_audit_hdfs_is_enabled = config['configurations']['ranger-knox-audit']['xasecure.audit.destination.hdfs'] if xml_configurations_supported else False
-  ssl_keystore_password = config['configurations']['ranger-knox-policymgr-ssl']['xasecure.policymgr.clientssl.keystore.password'] if xml_configurations_supported else None
-  ssl_truststore_password = config['configurations']['ranger-knox-policymgr-ssl']['xasecure.policymgr.clientssl.truststore.password'] if xml_configurations_supported else None
+  ssl_keystore_password = config['configurations']['ranger-knox-policymgr-ssl']['xasecure.policymgr.clientssl.keystore.password']
+  ssl_truststore_password = config['configurations']['ranger-knox-policymgr-ssl']['xasecure.policymgr.clientssl.truststore.password']
   credential_file = format('/etc/ranger/{repo_name}/cred.jceks')
 
   # for SQLA explicitly disable audit to DB for Ranger
