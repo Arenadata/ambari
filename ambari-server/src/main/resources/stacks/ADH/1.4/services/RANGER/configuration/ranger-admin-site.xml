@@ -202,7 +202,7 @@
     <name>ranger.authentication.method</name>
     <value>UNIX</value>
     <display-name>Authentication method</display-name>
-    <description>Ranger admin Authentication - UNIX/LDAP/AD/NONE</description>
+    <description>Ranger admin Authentication - UNIX/LDAP/ACTIVE_DIRECTORY/NONE</description>
     <value-attributes>
       <overridable>false</overridable>
     </value-attributes>
@@ -828,4 +828,3 @@
 
 
 </configuration>
-
