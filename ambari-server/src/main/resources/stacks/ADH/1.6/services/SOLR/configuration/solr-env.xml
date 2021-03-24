@@ -185,7 +185,6 @@
 
   <property>
     <name>solr_kerberos_keytab</name>
-    <value>/etc/security/keytabs/solr.service.keytab</value>
     <display-name>Solr keytab</display-name>
     <description>The path to the Kerberos Keytab file containing service principal of Solr.</description>
     <on-ambari-upgrade add="false"/>
@@ -193,7 +192,6 @@
 
   <property>
     <name>solr_kerberos_principal</name>
-    <value>solr/_HOST@EXAMPLE.COM</value>
     <display-name>Solr principal</display-name>
     <description>The service principal for Solr.</description>
     <property-type>KERBEROS_PRINCIPAL</property-type>
@@ -202,7 +200,6 @@
 
   <property>
     <name>solr_web_kerberos_keytab</name>
-    <value>/etc/security/keytabs/spnego.service.keytab</value>
     <display-name>Solr Http keytab</display-name>
     <description>The path to the Kerberos Keytab file containing service principal of Solr.</description>
     <on-ambari-upgrade add="false"/>
@@ -210,7 +207,6 @@
 
   <property>
     <name>solr_web_kerberos_principal</name>
-    <value>HTTP/_HOST@EXAMPLE.COM</value>
     <display-name>Solr Http principal</display-name>
     <description>The service principal for the Solr.</description>
     <property-type>KERBEROS_PRINCIPAL</property-type>
