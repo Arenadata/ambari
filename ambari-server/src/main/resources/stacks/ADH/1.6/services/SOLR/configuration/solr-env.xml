@@ -71,7 +71,7 @@
     <name>solr_datadir</name>
     <value>/opt/solr/data</value>
     <display-name>Solr data dir</display-name>
-    <description>Directory for storing Solr index. Make sure you have enough disk space</description>
+    <description>Directory for storing Solr index on host. Make sure you have enough disk space</description>
     <value-attributes>
       <type>directory</type>
       <overridable>false</overridable>
@@ -80,6 +80,7 @@
   </property>
   <property>
     <name>solr_hdfs_home_dir</name>
+    <display-name>Solr home on HDFS</display-name>
     <value>/apps/solr/data</value>
     <description>A root location in HDFS for Solr to write collection data to. Rather than specifying an HDFS location for the data directory or update log directory, use this to specify one root location and have everything automatically created within this HDFS</description>
     <on-ambari-upgrade add="false"/>
@@ -87,8 +88,8 @@
   <property>
     <name>solr_ssl_enabled</name>
     <value>false</value>
-    <display-name>Enable SSL to Solr</display-name>
-    <description>Enable ssl to Solr</description>
+    <display-name>Enable SSL for Solr</display-name>
+    <description>Enable ssl for Solr</description>
     <value-attributes>
       <type>boolean</type>
     </value-attributes>
@@ -240,7 +241,11 @@
   </property>
   <property>
     <name>is_supported_solr_ranger</name>
-    <value>true</value>
+    <display-name>Enable Ranger for Solr</display-name>
+    <value>false</value>
+    <value-attributes>
+      <type>boolean</type>
+    </value-attributes>
     <on-ambari-upgrade add="true"/>
   </property>
   <property>
