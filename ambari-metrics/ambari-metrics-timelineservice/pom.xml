@@ -34,9 +34,9 @@
     <!-- Needed for generating FindBugs warnings using parent pom -->
     <!--<yarn.basedir>${project.parent.parent.basedir}</yarn.basedir>-->
     <protobuf.version>2.5.0</protobuf.version>
-    <hadoop.version>2.7.3.2.6.4.0-91</hadoop.version>
-    <phoenix.version>4.7.0.2.6.4.0-91</phoenix.version>
-    <hbase.version>1.1.2.2.6.4.0-91</hbase.version>
+    <hadoop.version>2.7.3</hadoop.version>
+    <phoenix.version>4.8.0-HBase-1.2</phoenix.version>
+    <hbase.version>1.2.7</hbase.version>
   </properties>
 
   <build>
@@ -308,6 +308,11 @@
       </exclusions>
     </dependency>
     <!-- zkclient is helix-core dependency but it need to be 0.9 in order for AMS HA to work on secure cluster-->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.6</version>
+    </dependency>
     <dependency>
       <groupId>com.101tec</groupId>
       <artifactId>zkclient</artifactId>
