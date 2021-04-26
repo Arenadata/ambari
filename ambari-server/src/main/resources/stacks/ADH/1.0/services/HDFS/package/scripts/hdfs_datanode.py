@@ -44,6 +44,7 @@ def create_dirs(data_dir):
 def datanode(action=None):
   if action == "configure":
     import params
+    File(params.dfs_domain_socket_path, action='delete')
     if params.security_enabled and params.hadoop_secure_dn_user != params.hdfs_user:
       Directory(params.dfs_domain_socket_dir,
                 create_parents = True,
