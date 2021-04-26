@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 """
+
 import os
 from resource_management import *
 from resource_management.libraries.functions.mounted_dirs_helper import handle_mounted_dirs
@@ -89,4 +90,3 @@ def datanode(action=None):
   elif action == "status":
     import status_params
     check_windows_service_status(status_params.datanode_win_service_name)
-

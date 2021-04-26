@@ -17,6 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 """
+
 import os
 from resource_management.core.logger import Logger
 from resource_management.core.resources.system import Execute
@@ -117,4 +118,3 @@ def create_ranger_audit_hdfs_directories():
     params.HdfsResource(None, action="execute")
   else:
     Logger.info('Ranger Hdfs plugin is not enabled')
-

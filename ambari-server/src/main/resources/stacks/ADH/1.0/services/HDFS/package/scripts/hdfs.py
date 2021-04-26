@@ -30,7 +30,7 @@ def hdfs(name=None):
 
   if params.create_lib_snappy_symlinks:
     install_snappy()
-  
+
   # On some OS this folder could be not exists, so we will create it before pushing there files
   Directory(params.limits_conf_dir,
             create_parents = True,
@@ -132,17 +132,17 @@ def hdfs(name=None):
        owner=tc_owner,
        content=Template("slaves.j2")
   )
-  
+
   if params.lzo_enabled and len(params.lzo_packages) > 0:
       Package(params.lzo_packages,
               retry_on_repo_unavailability=params.agent_stack_retry_on_unavailability,
               retry_count=params.agent_stack_retry_count)
-      
+
 def install_snappy():
   import params
   Directory([params.so_target_dir_x86, params.so_target_dir_x64],
             create_parents = True,
-  )    
+  )
   Link(params.so_target_x86,
        to=params.so_src_x86,
   )
@@ -196,4 +196,3 @@ def hdfs(component=None):
             mode="f",
             configuration_attributes=params.config['configuration_attributes']['hdfs-site']
   )
-

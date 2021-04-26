@@ -56,4 +56,3 @@ else:
   tmp_dir = Script.get_tmp_dir()
 
 stack_name = default("/hostLevelParams/stack_name", None)
-

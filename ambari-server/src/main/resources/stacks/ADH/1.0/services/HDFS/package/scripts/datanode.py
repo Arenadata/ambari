@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 """
+
 import datanode_upgrade
 
 from ambari_commons.constants import UPGRADE_TYPE_ROLLING
@@ -142,11 +143,11 @@ class DataNodeDefault(DataNode):
     hdfs_binary = self.get_hdfs_binary()
     # ensure the DataNode has started and rejoined the cluster
     datanode_upgrade.post_upgrade_check(hdfs_binary)
-      
+
   def get_log_folder(self):
     import params
     return params.hdfs_log_dir
-  
+
   def get_user(self):
     import params
     return params.hdfs_user
@@ -159,5 +160,3 @@ class DataNodeWindows(DataNode):
 
 if __name__ == "__main__":
   DataNode().execute()
-
-
