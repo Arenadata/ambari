@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 """
+
 import os
 import re
 import urllib2
@@ -242,15 +243,15 @@ def service(action=None, name=None, user=None, options="", create_pid_dir=False,
         # to handle new configs. Otherwise we will not be able to stop
         # a running instance 
         user = "root"
-        
+
         try:
           check_process_status(hadoop_secure_dn_pid_file)
-          
+
           custom_export = {
             'HADOOP_SECURE_DN_USER': params.hdfs_user
           }
           hadoop_env_exports.update(custom_export)
-          
+
         except ComponentIsNotRunning:
           pass
 
@@ -266,11 +267,11 @@ def service(action=None, name=None, user=None, options="", create_pid_dir=False,
     if options:
       cmd += " " + options
     daemon_cmd = as_user(cmd, user)
-     
+
   if action == "start":
     # remove pid file from dead process
     File(pid_file, action="delete", not_if=process_id_exists_command)
-    
+
     try:
       Execute(daemon_cmd, not_if=process_id_exists_command, environment=hadoop_env_exports)
     except:

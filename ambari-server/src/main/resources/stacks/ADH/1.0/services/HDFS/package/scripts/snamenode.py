@@ -75,11 +75,11 @@ class SNameNodeDefault(SNameNode):
     if params.version and check_stack_feature(StackFeature.ROLLING_UPGRADE, params.version):
       conf_select.select(params.stack_name, "hadoop", params.version)
       stack_select.select("hadoop-hdfs-secondarynamenode", params.version)
-      
+
   def get_log_folder(self):
     import params
     return params.hdfs_log_dir
-  
+
   def get_user(self):
     import params
     return params.hdfs_user
@@ -90,4 +90,3 @@ class SNameNodeWindows(SNameNode):
 
 if __name__ == "__main__":
   SNameNode().execute()
-

@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 """
+
 import os
 from resource_management import *
 from resource_management.libraries.functions.mounted_dirs_helper import handle_mounted_dirs
@@ -43,11 +44,20 @@ def create_dirs(data_dir):
 def datanode(action=None):
   if action == "configure":
     import params
-    Directory(params.dfs_domain_socket_dir,
-              create_parents = True,
-              mode=0751,
-              owner=params.hdfs_user,
-              group=params.user_group)
+    if params.security_enabled and params.hadoop_secure_dn_user != params.hdfs_user:
+      Directory(params.dfs_domain_socket_dir,
+                create_parents = True,
+                mode=0751,
+                recursive_ownership = True,
+                owner=params.root_user,
+                group=params.user_group)
+    else:
+      Directory(params.dfs_domain_socket_dir,
+                create_parents = True,
+                mode=0751,
+                recursive_ownership = True,
+                owner=params.hdfs_user,
+                group=params.user_group)
 
     # handle_mounted_dirs ensures that we don't create dfs data dirs which are temporary unavailable (unmounted), and intended to reside on a different mount.
     data_dir_to_mount_file_content = handle_mounted_dirs(create_dirs, params.dfs_data_dirs, params.data_dir_mount_file, params)
@@ -82,4 +92,3 @@ def datanode(action=None):
   elif action == "status":
     import status_params
     check_windows_service_status(status_params.datanode_win_service_name)
-

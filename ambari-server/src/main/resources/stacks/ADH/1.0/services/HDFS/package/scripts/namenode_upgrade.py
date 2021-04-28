@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 """
+
 import re
 import os
 
@@ -319,4 +320,3 @@ def delete_upgrade_marker():
     error_message = "Unable to remove NameNode upgrade marker file {0}".format(namenode_upgrade_in_progress_marker)
     Logger.error(error_message)
     raise Fail(error_message)
-

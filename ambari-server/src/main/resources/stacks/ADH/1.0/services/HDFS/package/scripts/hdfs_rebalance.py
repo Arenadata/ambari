@@ -16,13 +16,13 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
 '''
 
 import re
 import sys
 from resource_management.core.exceptions import Fail
 from resource_management.libraries.resources.execute_hadoop import ExecuteHadoop
-
 
 class HdfsParser():
   def __init__(self):
@@ -132,7 +132,6 @@ class HdfsLine():
           }
   def __str__(self):
     return "[ date=%s,iteration=%d, bytesAlreadyMoved=%d, bytesLeftToMove=%d, bytesBeingMoved=%d]"%(self.date, self.iteration, self.bytesAlreadyMoved, self.bytesLeftToMove, self.bytesBeingMoved)
-
 
 
 def is_balancer_running():

@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 """
+
 # this is needed to avoid a circular dependency since utils.py calls this class
 import utils
 from hdfs import hdfs

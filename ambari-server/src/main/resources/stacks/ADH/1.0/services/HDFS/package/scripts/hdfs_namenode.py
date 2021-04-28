@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 """
+
 import os.path
 import time
 
@@ -608,4 +609,3 @@ def is_this_namenode_active():
   # enters at least one of these roles before returning a verdict - the annotation will catch
   # this failure and retry the fuction automatically
   raise Fail(format("The NameNode {namenode_id} is not listed as Active or Standby, waiting..."))
-

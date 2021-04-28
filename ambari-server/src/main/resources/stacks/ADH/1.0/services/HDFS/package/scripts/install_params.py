@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 """
+
 from ambari_commons import OSCheck
 
 # These parameters are supposed to be referenced at installation time, before the Hadoop environment variables have been set
