@@ -126,14 +126,18 @@ if security_enabled:
     solr_kerberos_keytab = solr_keytab
 
   solr_kerberos_principal = default('/configurations/solr-env/solr_kerberos_principal', None)
-  if solr_kerberos_principal:
-    solr_kerberos_principal = solr_kerberos_principal.replace('_HOST',_hostname_lowercase)
-  else: #Maybe against older configurations during a downgrade operation. Look for the old property
-    solr_site = dict(config['configurations']['solr-site'])
-    solr_principal = solr_site['solr.hdfs.security.kerberos.principal']
-    solr_principal = solr_principal.replace('_HOST', _hostname_lowercase)
-    solr_site['solr.hdfs.security.kerberos.principal']=solr_principal
-    solr_kerberos_principal = solr_principal
+  if not solr_kerberos_principal:
+    #Maybe against older configurations during a downgrade operation. Look for the old property
+    if not is_empty(config['configurations']['solr-site']):
+      solr_site = dict(config['configurations']['solr-site'])
+      solr_principal = solr_site['solr.hdfs.security.kerberos.principal']
+      solr_principal = solr_principal.replace('_HOST', _hostname_lowercase)
+      solr_site['solr.hdfs.security.kerberos.principal']=solr_principal
+      solr_kerberos_principal = solr_principal
+    else:
+      solr_kerberos_principal = 'solr/_HOST@' + config['configurations']['kerberos-env']['realm']
+
+  solr_kerberos_principal = solr_kerberos_principal.replace('_HOST',_hostname_lowercase)
 
   solr_web_kerberos_keytab = config['configurations']['solr-env']['solr_web_kerberos_keytab']
   solr_web_kerberos_principal = default('/configurations/solr-env/solr_web_kerberos_principal', None)

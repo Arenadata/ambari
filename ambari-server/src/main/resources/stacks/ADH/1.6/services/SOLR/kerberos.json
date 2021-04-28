@@ -8,19 +8,19 @@
           "reference": "/smokeuser"
         },
         {
-          "name": "solr_spnego",
-          "reference": "/spnego",
-          "principal": {
+        "name": "solr_spnego",
+        "reference": "/spnego",
+        "principal": {
             "configuration": "solr-env/solr_web_kerberos_principal"
-          },
-          "keytab": {
+        },
+        "keytab": {
             "configuration": "solr-env/solr_web_kerberos_keytab"
-          }
         }
+    }
       ],
       "components": [
         {
-          "name": "SOLR",
+          "name": "SOLR_SERVER",
           "identities": [
             {
               "name": "solr",
