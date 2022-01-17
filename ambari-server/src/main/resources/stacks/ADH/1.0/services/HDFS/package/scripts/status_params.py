@@ -47,6 +47,9 @@ else:
   # Security related/required params
   hostname = config['hostname']
   security_enabled = config['configurations']['cluster-env']['security_enabled']
+  if security_enabled:
+    hadoop_pid_dir = format("{hadoop_pid_dir_prefix}/root")
+    datanode_pid_file = format("{hadoop_pid_dir}/hadoop-root-datanode.pid")
   hdfs_user_principal = config['configurations']['hadoop-env']['hdfs_principal_name']
   hdfs_user_keytab = config['configurations']['hadoop-env']['hdfs_user_keytab']
 
