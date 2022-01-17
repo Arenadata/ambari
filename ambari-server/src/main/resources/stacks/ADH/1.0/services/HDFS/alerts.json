@@ -301,14 +301,14 @@
           },
           "reporting": {
             "ok": {
-              "text": "Volume Failures:[{0}]"
+              "text": "Failed Volumes:[{0}]"
             },
             "warning": {
-              "text": "Volume Failures:[{0}]",
+              "text": "Failed Volumes:[{0}]",
               "value": 1
             },
             "critical": {
-              "text": "Volume Failures:[{0}]",
+              "text": "Failed Volumes:[{0}]",
               "value": 1
             },
             "units" : "Volumes"
