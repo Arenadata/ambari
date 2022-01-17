@@ -71,12 +71,20 @@ def datanode(action=None):
 
   elif action == "start" or action == "stop":
     import params
-    service(
-      action=action, name="datanode",
-      user=params.hdfs_user,
-      create_pid_dir=True,
-      create_log_dir=True
-    )
+    if params.security_enabled and params.hadoop_secure_dn_user != params.hdfs_user:
+      service(
+        action=action, name="datanode",
+        user=params.root_user,
+        create_pid_dir=True,
+        create_log_dir=True
+      )
+    else:
+      service(
+        action=action, name="datanode",
+        user=params.hdfs_user,
+        create_pid_dir=True,
+        create_log_dir=True
+      )
   elif action == "status":
     import status_params
     check_process_status(status_params.datanode_pid_file)

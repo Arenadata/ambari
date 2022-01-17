@@ -227,14 +227,14 @@ def service(action=None, name=None, user=None, options="", create_pid_dir=False,
 
   if params.security_enabled and name == "datanode":
     ## The directory where pid files are stored in the secure data environment.
-    hadoop_secure_dn_pid_dir = format("{hadoop_pid_dir_prefix}/{hdfs_user}")
-    hadoop_secure_dn_pid_file = format("{hadoop_secure_dn_pid_dir}/hadoop_secure_dn.pid")
+    hadoop_secure_dn_pid_dir = format("{hadoop_pid_dir_prefix}/{user}")
+    hadoop_secure_dn_pid_file = format("{hadoop_pid_dir_prefix}/{user}/hadoop-{user}-{name}.pid")
 
     # At datanode_non_root stack version and further, we may start datanode as a non-root even in secure cluster
     if not (params.stack_version_formatted and check_stack_feature(StackFeature.DATANODE_NON_ROOT, params.stack_version_formatted)) or params.secure_dn_ports_are_in_use:
       user = "root"
       pid_file = format(
-        "{hadoop_pid_dir_prefix}/{hdfs_user}/hadoop-{hdfs_user}-{name}.pid")
+        "{hadoop_pid_dir_prefix}/{user}/hadoop-{user}-{name}.pid")
 
     if action == 'stop' and (params.stack_version_formatted and check_stack_feature(StackFeature.DATANODE_NON_ROOT, params.stack_version_formatted)) and \
       os.path.isfile(hadoop_secure_dn_pid_file):
