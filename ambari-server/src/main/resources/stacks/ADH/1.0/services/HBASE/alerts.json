@@ -25,7 +25,32 @@
             }
           }
         }
-      }    
+      },
+      {
+        "name": "hbase_queryserver_process_percent",
+        "label": "Percent Phoenix Query Servers Available",
+        "description": "This service-level alert is triggered if the configured percentage of RegionServer processes cannot be determined to be up and listening on the network for the configured warning and critical thresholds. It aggregates the results of RegionServer process down checks.",
+        "interval": 1,
+        "scope": "SERVICE",
+        "enabled": false,
+        "source": {
+          "type": "AGGREGATE",
+          "alert_name": "hbase_queryserver_process",
+          "reporting": {
+            "ok": {
+              "text": "affected: [{1}], total: [{0}]"
+            },
+            "warning": {
+              "text": "affected: [{1}], total: [{0}]",
+              "value": 0.1
+            },
+            "critical": {
+              "text": "affected: [{1}], total: [{0}]",
+              "value": 0.3
+            }
+          }
+        }
+      }
     ],
     "HBASE_MASTER": [
       {
